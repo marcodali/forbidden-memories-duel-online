@@ -22,4 +22,6 @@ go.work
 go.work.sum
 
 # env file
+**/.DS_Store
 .env
+.aider*
