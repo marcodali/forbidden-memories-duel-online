@@ -5,28 +5,20 @@ The classic forbidden memories for ps1 game but online p2p
 ```go
 /go-modules/
 ├── cmd/                    # Entry points for applications
-├── internal/              # Private application code
-│   ├── engine/           # Game Engine implementation
-│   │   ├── domain/      # Core business logic
-│   │   ├── integration/ # External service integration
-│   │   └── transport/   # Communication layer
-│   └── persistence/      # Data Persistence implementation
-│       ├── domain/      # Data models
-│       ├── integration/ # Database integration
-│       ├── repository/  # Data access layer
-│       │   ├── redis/   # Redis implementation
-│       │   ├── mongodb/ # MongoDB implementation
-│       │   ├── dynamodb/# DynamoDB implementation
-│       │   └── wrapper/ # Database wrapper interfaces
-│       └── transport/   # Data service communication
-└── pkg/                  # Public shared code
-    ├── models/           # Shared data models
-    ├── proto/           # Protocol buffer definitions
-    │   ├── engine/     # Game engine protos
-    │   └── persistence/# Data persistence protos
-    └── utils/           # Shared utilities
-        ├── logger/     # Logging utilities
-        └── config/     # Configuration management
+├── internal/               # Private application code
+│   ├── engine/             # Game Engine implementation
+│   │   ├── domain/         # Core business logic
+│   │   ├── integration/    # External service integration
+│   │   └── transport/      # Communication layer
+│   └── persistence/        # Data Persistence implementation
+│       ├── domain/         # Core business logic
+│       ├── integration/    # Database integration tests
+│       ├── repository/     # Data access layer
+│       └── transport/      # Data service communication
+└── pkg/                    # Public shared code
+    ├── models/             # Shared data models
+    ├── proto/              # Protocol buffer definitions
+    └── utils/              # Shared utilities
 ```
 
 ## Backend Components
@@ -51,3 +43,15 @@ The classic forbidden memories for ps1 game but online p2p
 
 - **Data Persistence (Go):** Manages storage and retrieval of game data.
   > Go's strong standard library and excellent database drivers provide flexible and efficient data persistence.
+
+## Game Entities
+
+- **Card:** Represents a card in the game.
+- **Player:** Represents a player in the game.
+- **Board:** The playing area where cards are placed.
+- **Engine:** Manages the game's logic and flow.
+- **Deck:** A set of cards a player can use.
+- **Game:** Represents an instance of the game.
+- **Turn:** Manages the turn cycle in the game.
+- **Effect:** Represents special effects of cards.
+- **Event:** Handles events occurring during the game.
