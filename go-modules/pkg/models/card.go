@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"sync"
 
 	"gopkg.in/yaml.v3"
@@ -72,7 +73,7 @@ func GetCardRegistry() *CardRegistry {
 func (r *CardRegistry) LoadCards(data []byte) error {
 	var templates []*CardTemplate
 	if err := yaml.Unmarshal(data, &templates); err != nil {
-		return err
+		return fmt.Errorf("error unmarshalling YAML data: %w", err)
 	}
 
 	for _, template := range templates {
@@ -87,10 +88,10 @@ func (r *CardRegistry) GetCard(id int) *CardTemplate {
 }
 
 // NewCardInstance creates a new instance of a card in play
-func NewCardInstance(templateID int) *CardInstance {
+func NewCardInstance(templateID int) (*CardInstance, error) {
 	template := GetCardRegistry().GetCard(templateID)
 	if template == nil {
-		return nil
+		return nil, fmt.Errorf("no card template found for the given ID")
 	}
 
 	return &CardInstance{
@@ -98,5 +99,5 @@ func NewCardInstance(templateID int) *CardInstance {
 		CurrentAttack:  template.BaseAttack,
 		CurrentDefense: template.BaseDefense,
 		IsInAttackMode: false,
-	}
+	}, nil
 }
