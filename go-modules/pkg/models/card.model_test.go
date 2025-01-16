@@ -1,9 +1,8 @@
-package models_test
+package models
 
 import (
 	"testing"
 
-	"github.com/marcodali/forbidden-memories-duel-online/pkg/models"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -27,7 +26,7 @@ func TestLoadCards(t *testing.T) {
   isRitual: false
   image: "test_card.png"
 `
-	registry := models.GetCardRegistry()
+	registry := GetCardRegistry()
 	err := registry.LoadCards([]byte(data))
 	if err != nil {
 		t.Fatalf("Failed to load cards: %v", err)
@@ -54,7 +53,7 @@ func TestLoadCardsWithInvalidData(t *testing.T) {
   isRitual: false
   image: "invalid_card.png"
 `
-	registry := models.GetCardRegistry()
+	registry := GetCardRegistry()
 	err := registry.LoadCards([]byte(invalidData))
 	if err == nil {
 		t.Fatal("Expected an error when loading invalid YAML data, but got none")
@@ -66,7 +65,7 @@ func TestLoadCardsWithInvalidData(t *testing.T) {
 }
 
 func TestGetCard(t *testing.T) {
-	registry := models.GetCardRegistry()
+	registry := GetCardRegistry()
 	cardTemplate := registry.GetCard(1)
 	if cardTemplate == nil {
 		t.Fatal("Expected to find card with ID 1, but got nil")
@@ -80,7 +79,7 @@ func TestGetCard(t *testing.T) {
 }
 
 func TestNewCardInstance(t *testing.T) {
-	playableCard, err := models.NewCardInstance(1)
+	playableCard, err := NewCardInstance(1)
 	if err != nil {
 		t.Fatalf("Failed to create playable card instance because: %v", err)
 	}
@@ -98,7 +97,7 @@ func TestNewCardInstance(t *testing.T) {
 	}
 
 	// Test with invalid card ID
-	_, err = models.NewCardInstance(999)
+	_, err = NewCardInstance(999)
 	if err == nil {
 		t.Fatal("Expected an error when creating a card instance with invalid ID, but got none")
 	}
@@ -106,15 +105,15 @@ func TestNewCardInstance(t *testing.T) {
 }
 
 func TestSingletonCardRegistry(t *testing.T) {
-	registryA := models.GetCardRegistry()
-	registryB := models.GetCardRegistry()
+	registryA := GetCardRegistry()
+	registryB := GetCardRegistry()
 	if registryA != registryB {
 		t.Error("Expected both registry instances to be the same because we are using a singleton")
 	}
 }
 
 func TestCardInstanceStateChange(t *testing.T) {
-	playableCard, err := models.NewCardInstance(1)
+	playableCard, err := NewCardInstance(1)
 	if err != nil {
 		t.Fatalf("Failed to create playable card instance because: %v", err)
 	}
