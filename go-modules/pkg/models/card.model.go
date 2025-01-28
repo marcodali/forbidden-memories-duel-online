@@ -20,25 +20,32 @@ const (
 	RarityGhost      Rarity = "GHOST_RARE"
 )
 
+// EquipRules defines the rules for equip cards
+type EquipRules struct {
+	ValidTargetIDs []int `yaml:"validTargetIDs"` // List of card IDs that can be equipped
+	Bonus          int   `yaml:"bonus"`          // Bonus applied to both ATK and DEF
+}
+
 // CardTemplate contains the immutable properties of a card
 type CardTemplate struct {
-	ID               int       `yaml:"id"`
-	Name             string    `yaml:"name"`
-	Description      string    `yaml:"description"`
-	BaseAttack       int       `yaml:"baseAttack"`
-	BaseDefense      int       `yaml:"baseDefense"`
-	Level            int       `yaml:"level"`
-	MainType         string    `yaml:"mainType"`
-	SubType          string    `yaml:"subType"`
-	GuardianStars    [2]string `yaml:"guardianStars"`
-	Rarity           Rarity    `yaml:"rarity"`
-	IsFusion         bool      `yaml:"isFusion"`
-	IsFusionMaterial bool      `yaml:"isFusionMaterial"`
-	IsMagic          bool      `yaml:"isMagic"`
-	IsEquip          bool      `yaml:"isEquip"`
-	IsTrap           bool      `yaml:"isTrap"`
-	IsRitual         bool      `yaml:"isRitual"`
-	Image            string    `yaml:"image"`
+	ID               int         `yaml:"id"`
+	Name             string      `yaml:"name"`
+	Description      string      `yaml:"description"`
+	BaseAttack       int         `yaml:"baseAttack"`
+	BaseDefense      int         `yaml:"baseDefense"`
+	Level            int         `yaml:"level"`
+	MainType         string      `yaml:"mainType"`
+	SubType          string      `yaml:"subType"`
+	GuardianStars    [2]string   `yaml:"guardianStars"`
+	Rarity           Rarity      `yaml:"rarity"`
+	IsFusion         bool        `yaml:"isFusion"`
+	IsFusionMaterial bool        `yaml:"isFusionMaterial"`
+	IsMagic          bool        `yaml:"isMagic"`
+	IsEquip          bool        `yaml:"isEquip"`
+	IsTrap           bool        `yaml:"isTrap"`
+	IsRitual         bool        `yaml:"isRitual"`
+	Image            string      `yaml:"image"`
+	EquipRules       *EquipRules `yaml:"equipRules,omitempty"`
 }
 
 // CardInstance represents a card in play

@@ -25,6 +25,26 @@ func TestLoadCards(t *testing.T) {
   isTrap: false
   isRitual: false
   image: "test_card.png"
+- id: 2
+  name: "Malevolent Nuzzler"
+  description: "An equip card"
+  baseAttack: 0
+  baseDefense: 0
+  level: 0
+  mainType: "Magic"
+  subType: "Equip"
+  guardianStars: ["None", "None"]
+  rarity: "NORMAL"
+  isFusion: false
+  isFusionMaterial: false
+  isMagic: true
+  isEquip: true
+  isTrap: false
+  isRitual: false
+  image: "malevolent_nuzzler.png"
+  equipRules:
+    validTargetIDs: [1]
+    bonus: 700
 `
 	registry := GetCardRegistry()
 	err := registry.LoadCards([]byte(data))
@@ -109,6 +129,31 @@ func TestSingletonCardRegistry(t *testing.T) {
 	registryB := GetCardRegistry()
 	if registryA != registryB {
 		t.Error("Expected both registry instances to be the same because we are using a singleton")
+	}
+}
+
+func TestEquipCard(t *testing.T) {
+	registry := GetCardRegistry()
+	equipCard := registry.GetCard(2) // Malevolent Nuzzler
+
+	if equipCard == nil {
+		t.Fatal("Expected to find equip card with ID 2, but got nil")
+	}
+
+	if !equipCard.IsEquip {
+		t.Error("Expected card to be an equip card")
+	}
+
+	if equipCard.EquipRules == nil {
+		t.Fatal("Expected equip card to have EquipRules")
+	}
+
+	if len(equipCard.EquipRules.ValidTargetIDs) == 0 {
+		t.Error("Expected equip card to have valid target IDs")
+	}
+
+	if equipCard.EquipRules.Bonus != 700 {
+		t.Errorf("Expected bonus to be 700, got %d", equipCard.EquipRules.Bonus)
 	}
 }
 

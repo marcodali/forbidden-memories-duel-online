@@ -14,7 +14,6 @@ const (
 	Apple    AuthProvider = "APPLE"
 )
 
-// Player represents a player in the game
 type Player struct {
 	ID           string
 	Username     string
@@ -29,7 +28,7 @@ type Player struct {
 	LossCount    int
 }
 
-// NewPlayer creates a new player instance
+// Creates a new player instance
 func NewPlayer(id string, username string, country string, authProvider AuthProvider) (*Player, error) {
 	if id == "" {
 		return nil, errors.New("player id cannot be empty")
@@ -57,12 +56,11 @@ func NewPlayer(id string, username string, country string, authProvider AuthProv
 	}, nil
 }
 
-// UpdateLastLogin updates the player's last login timestamp
 func (p *Player) UpdateLastLogin() {
 	p.LastLogin = time.Now()
 }
 
-// GetWinRate calculates the player's win rate percentage
+// Calculates the player's win rate percentage
 func (p *Player) GetWinRate() float64 {
 	if p.TotalDuels == 0 {
 		return 0.0
