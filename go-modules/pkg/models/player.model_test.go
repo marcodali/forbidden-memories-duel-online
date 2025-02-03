@@ -10,7 +10,6 @@ import (
 func TestNewPlayer(t *testing.T) {
 	tests := []struct {
 		name         string
-		id           string
 		username     string
 		country      string
 		authProvider AuthProvider
@@ -18,60 +17,39 @@ func TestNewPlayer(t *testing.T) {
 	}{
 		{
 			name:         "Valid player creation with Google",
-			id:           "player-1",
 			username:     "TestPlayer",
-			country:      "MX",
+			country:      Mexico,
 			authProvider: Google,
 			wantErr:      false,
 		},
 		{
 			name:         "Valid player creation with Facebook",
-			id:           "player-2",
-			username:     "TestPlayer2",
-			country:      "US",
+			username:     "TestPlayer",
+			country:      USA,
 			authProvider: Facebook,
 			wantErr:      false,
 		},
 		{
-			name:         "Empty ID",
-			id:           "",
-			username:     "TestPlayer",
-			country:      "MX",
-			authProvider: Google,
-			wantErr:      true,
-		},
-		{
 			name:         "Empty username",
-			id:           "player-1",
 			username:     "",
-			country:      "MX",
-			authProvider: Google,
-			wantErr:      true,
-		},
-		{
-			name:         "Empty country",
-			id:           "player-1",
-			username:     "TestPlayer",
-			country:      "",
-			authProvider: Google,
+			country:      Colombia,
+			authProvider: Apple,
 			wantErr:      true,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			player, err := NewPlayer(tt.id, tt.username, tt.country, tt.authProvider)
+			player, err := NewPlayer(tt.username)
 
 			if tt.wantErr {
 				assert.Error(t, err)
 				assert.Nil(t, player)
+				assert.Contains(t, err.Error(), "username cannot be empty")
 			} else {
 				assert.NoError(t, err)
 				assert.NotNil(t, player)
-				assert.Equal(t, tt.id, player.ID)
 				assert.Equal(t, tt.username, player.Username)
-				assert.Equal(t, tt.country, player.Country)
-				assert.Equal(t, tt.authProvider, player.AuthProvider)
 				assert.True(t, player.IsOnline)
 				assert.False(t, player.IsInDuel)
 				assert.Equal(t, 0, player.TotalDuels)
@@ -79,15 +57,61 @@ func TestNewPlayer(t *testing.T) {
 				assert.Equal(t, 0, player.LossCount)
 
 				// Verify timestamps are recent
-				assert.WithinDuration(t, time.Now(), player.RegisteredAt, 2*time.Second)
-				assert.WithinDuration(t, time.Now(), player.LastLogin, 2*time.Second)
+				assert.WithinDuration(t, time.Now(), player.RegisteredAt, 1*time.Second)
+				assert.WithinDuration(t, time.Now(), player.LastLogin, 1*time.Second)
+
+				// call country setter method
+				err = player.SetCountry(tt.country)
+				assert.NoError(t, err)
+				assert.Equal(t, tt.country, player.Country)
+
+				// call auth provider setter method
+				err = player.SetAuthProvider(tt.authProvider)
+				assert.NoError(t, err)
+				assert.Equal(t, tt.authProvider, player.AuthProvider)
 			}
 		})
 	}
 }
 
+func TestInvalidCountry(t *testing.T) {
+	test := struct {
+		username string
+		country  string
+	}{
+		username: "TestPlayer",
+		country:  "",
+	}
+
+	player, _ := NewPlayer(test.username)
+	err := player.SetCountry(test.country)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "invalid country")
+
+	// to see this error message, run the test with -v flag
+	t.Logf("Error: %v", err)
+}
+
+func TestAuthProvider(t *testing.T) {
+	test := struct {
+		username     string
+		authProvider AuthProvider
+	}{
+		username:     "TestPlayer",
+		authProvider: "",
+	}
+
+	player, _ := NewPlayer(test.username)
+	err := player.SetAuthProvider(test.authProvider)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "invalid auth provider")
+
+	// to see this error message, run the test with -v flag
+	t.Logf("Error: %v", err)
+}
+
 func TestUpdateLastLogin(t *testing.T) {
-	player, _ := NewPlayer("player-1", "TestPlayer", "MX", Google)
+	player, _ := NewPlayer("TestPlayer")
 
 	// Simulate time passing
 	time.Sleep(time.Millisecond * 100)
@@ -99,7 +123,7 @@ func TestUpdateLastLogin(t *testing.T) {
 }
 
 func TestGetWinRate(t *testing.T) {
-	player, _ := NewPlayer("player-1", "TestPlayer", "MX", Google)
+	player, _ := NewPlayer("TestPlayer")
 
 	tests := []struct {
 		name       string

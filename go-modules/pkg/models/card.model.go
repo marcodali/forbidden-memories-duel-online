@@ -7,7 +7,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Rarity represents the rarity level of a card
+// represents the rarity level of a card
 type Rarity string
 
 const (
@@ -20,13 +20,13 @@ const (
 	RarityGhost      Rarity = "GHOST_RARE"
 )
 
-// EquipRules defines the rules for equip cards
+// defines the rules for equip cards
 type EquipRules struct {
 	ValidTargetIDs []int `yaml:"validTargetIDs"` // List of card IDs that can be equipped
 	Bonus          int   `yaml:"bonus"`          // Bonus applied to both ATK and DEF
 }
 
-// CardTemplate contains the immutable properties of a card
+// contains the immutable properties of a card
 type CardTemplate struct {
 	ID               int         `yaml:"id"`
 	Name             string      `yaml:"name"`
@@ -48,7 +48,7 @@ type CardTemplate struct {
 	EquipRules       *EquipRules `yaml:"equipRules,omitempty"`
 }
 
-// CardInstance represents a card in play
+// represents a card in play
 type CardInstance struct {
 	Template       *CardTemplate
 	IsInAttackMode bool
@@ -56,7 +56,7 @@ type CardInstance struct {
 	CurrentDefense int
 }
 
-// CardRegistry is the global registry of card templates
+// is the global registry of card templates
 type CardRegistry struct {
 	templates map[int]*CardTemplate
 }
@@ -66,7 +66,7 @@ var (
 	once     sync.Once
 )
 
-// GetCardRegistry returns the singleton instance of the card registry
+// returns the singleton instance of the card registry
 func GetCardRegistry() *CardRegistry {
 	once.Do(func() {
 		registry = &CardRegistry{
@@ -76,11 +76,10 @@ func GetCardRegistry() *CardRegistry {
 	return registry
 }
 
-// LoadCards loads card templates from YAML data
-func (r *CardRegistry) LoadCards(data []byte) error {
+func (r *CardRegistry) LoadCardsfromYAML(data []byte) error {
 	var templates []*CardTemplate
 	if err := yaml.Unmarshal(data, &templates); err != nil {
-		return fmt.Errorf("error unmarshalling YAML data: %w", err)
+		return fmt.Errorf("unexpected error trying to load cards from YAML data: %w", err)
 	}
 
 	for _, template := range templates {
@@ -89,16 +88,16 @@ func (r *CardRegistry) LoadCards(data []byte) error {
 	return nil
 }
 
-// GetCard returns a card template by ID
+// returns a card template by ID
 func (r *CardRegistry) GetCard(id int) *CardTemplate {
 	return r.templates[id]
 }
 
-// NewCardInstance creates a new instance of a card in play
+// creates a new instance of a card in play
 func NewCardInstance(templateID int) (*CardInstance, error) {
 	template := GetCardRegistry().GetCard(templateID)
 	if template == nil {
-		return nil, fmt.Errorf("no card template found for the given ID")
+		return nil, fmt.Errorf("no card template found for the given ID: %d", templateID)
 	}
 
 	return &CardInstance{

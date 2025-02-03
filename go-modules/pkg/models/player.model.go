@@ -2,10 +2,13 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"time"
+
+	"github.com/google/uuid"
 )
 
-// AuthProvider represents the authentication method used by the player
+// represents the authentication method used by the player
 type AuthProvider string
 
 const (
@@ -13,6 +16,21 @@ const (
 	Facebook AuthProvider = "FACEBOOK"
 	Apple    AuthProvider = "APPLE"
 )
+
+var verifiedProviders = []AuthProvider{Google, Facebook, Apple}
+
+const (
+	Canada     = "CA"
+	USA        = "US"
+	Mexico     = "MX"
+	Colombia   = "CO"
+	Brazil     = "BR"
+	Chile      = "CL"
+	Peru       = "PE"
+	Aregentina = "AR"
+)
+
+var verifiedCountries = []string{Canada, USA, Mexico, Colombia, Brazil, Chile, Peru, Aregentina}
 
 type Player struct {
 	ID           string
@@ -28,26 +46,17 @@ type Player struct {
 	LossCount    int
 }
 
-// Creates a new player instance
-func NewPlayer(id string, username string, country string, authProvider AuthProvider) (*Player, error) {
-	if id == "" {
-		return nil, errors.New("player id cannot be empty")
-	}
+func NewPlayer(username string) (*Player, error) {
 	if username == "" {
 		return nil, errors.New("username cannot be empty")
-	}
-	if country == "" {
-		return nil, errors.New("country cannot be empty")
 	}
 
 	now := time.Now()
 	return &Player{
-		ID:           id,
+		ID:           generateUUID(),
 		Username:     username,
-		Country:      country,
 		RegisteredAt: now,
 		LastLogin:    now,
-		AuthProvider: authProvider,
 		IsOnline:     true,
 		IsInDuel:     false,
 		TotalDuels:   0,
@@ -56,11 +65,37 @@ func NewPlayer(id string, username string, country string, authProvider AuthProv
 	}, nil
 }
 
+func generateUUID() string {
+	return uuid.New().String()
+}
+
+func (p *Player) SetCountry(country string) error {
+	// verify if the country is in the list of verified countries
+	for _, c := range verifiedCountries {
+		if c == country {
+			p.Country = country
+			return nil
+		}
+	}
+	return fmt.Errorf("invalid country %q: expected one of [%v]", country, verifiedCountries)
+}
+
+func (p *Player) SetAuthProvider(authProvider AuthProvider) error {
+	// verify if the auth provider is in the list of verified providers
+	for _, provider := range verifiedProviders {
+		if provider == authProvider {
+			p.AuthProvider = authProvider
+			return nil
+		}
+	}
+	return fmt.Errorf("invalid auth provider %q: expected one of [%v]", authProvider, verifiedProviders)
+}
+
 func (p *Player) UpdateLastLogin() {
 	p.LastLogin = time.Now()
 }
 
-// Calculates the player's win rate percentage
+// calculates the player's win rate percentage
 func (p *Player) GetWinRate() float64 {
 	if p.TotalDuels == 0 {
 		return 0.0
