@@ -40,7 +40,8 @@ type Player struct {
 	LastLogin    time.Time
 	AuthProvider AuthProvider
 	IsOnline     bool
-	IsInDuel     bool
+	IsDueling    bool
+	LifePoints   int
 	TotalDuels   int
 	WinCount     int
 	LossCount    int
@@ -58,7 +59,7 @@ func NewPlayer(username string) (*Player, error) {
 		RegisteredAt: now,
 		LastLogin:    now,
 		IsOnline:     true,
-		IsInDuel:     false,
+		IsDueling:    false,
 		TotalDuels:   0,
 		WinCount:     0,
 		LossCount:    0,

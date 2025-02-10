@@ -16,6 +16,7 @@ const (
 
 type Game struct {
 	Decks       [2]*Deck
+	Board       *Board
 	CurrentTurn int
 	State       GameState
 	StartTime   time.Time
@@ -26,8 +27,12 @@ func NewGame(decks [2]*Deck) (*Game, error) {
 		return nil, errors.New("both decks must be provided")
 	}
 
+	decks[0].Player.LifePoints = 8000
+	decks[1].Player.LifePoints = 8000
+
 	return &Game{
 		Decks:       decks,
+		Board:       NewBoard(),
 		CurrentTurn: 0, // represents the index of the current player
 		State:       GameReadyToStart,
 		StartTime:   time.Now(),

@@ -1,0 +1,899 @@
+- id: 1
+  name: "Blue-eyes White Dragon"
+  baseAttack: 3000
+  baseDefense: 2500
+  level: 8
+  type: "Dragon"
+  guardianStars: ["Sun", "Mars"]
+  rarity: "NORMAL"
+
+- id: 2
+  name: "Mystical Elf"
+  baseAttack: 800
+  baseDefense: 2000
+  level: 4
+  type: "Spellcaster"
+  guardianStars: ["Sun", "Jupiter"]
+  rarity: "NORMAL"
+
+- id: 3
+  name: "Hitotsu-me Giant"
+  baseAttack: 1200
+  baseDefense: 1000
+  level: 4
+  type: "Beast-Warrior"
+  guardianStars: ["Moon", "Mars"]
+  rarity: "NORMAL"
+
+- id: 4
+  name: "Baby Dragon"
+  baseAttack: 1200
+  baseDefense: 700
+  level: 3
+  type: "Dragon"
+  guardianStars: ["Uranus", "Sun"]
+  rarity: "NORMAL"
+
+- id: 5
+  name: "Ryu-kishin"
+  baseAttack: 1000
+  baseDefense: 500
+  level: 3
+  type: "Fiend"
+  guardianStars: ["Saturn", "Sun"]
+  rarity: "NORMAL"
+
+- id: 6
+  name: "Feral Imp"
+  baseAttack: 1300
+  baseDefense: 1400
+  level: 4
+  type: "Fiend"
+  guardianStars: ["Moon", "Jupiter"]
+  rarity: "NORMAL"
+
+- id: 7
+  name: "Winged Dragon #1"
+  baseAttack: 1400
+  baseDefense: 1200
+  level: 4
+  type: "Dragon"
+  guardianStars: ["Saturn", "Moon"]
+  rarity: "NORMAL"
+
+- id: 8
+  name: "Mushroom Man"
+  baseAttack: 800
+  baseDefense: 600
+  level: 2
+  type: "Plant"
+  guardianStars: ["Jupiter", "Sun"]
+  rarity: "NORMAL"
+
+- id: 9
+  name: "Shadow Specter"
+  baseAttack: 500
+  baseDefense: 200
+  level: 1
+  type: "Zombie"
+  guardianStars: ["Moon", "Saturn"]
+  rarity: "NORMAL"
+
+- id: 10
+  name: "Blackland Fire Dragon"
+  baseAttack: 1500
+  baseDefense: 800
+  level: 4
+  type: "Dragon"
+  guardianStars: ["Mercury", "Moon"]
+  rarity: "NORMAL"
+
+- id: 11
+  name: "Sword Arm of Dragon"
+  baseAttack: 1750
+  baseDefense: 2030
+  level: 6
+  type: "Dinosaur"
+  guardianStars: ["Uranus", "Moon"]
+  rarity: "NORMAL"
+
+- id: 12
+  name: "Swamp Battleguard"
+  baseAttack: 1800
+  baseDefense: 1500
+  level: 5
+  type: "Warrior"
+  guardianStars: ["Mercury", "Mars"]
+  rarity: "NORMAL"
+
+- id: 13
+  name: "Tyhone"
+  baseAttack: 1200
+  baseDefense: 1400
+  level: 4
+  type: "Winged Beast"
+  guardianStars: ["Saturn", "Venus"]
+  rarity: "NORMAL"
+
+- id: 14
+  name: "Battle Steer"
+  baseAttack: 1800
+  baseDefense: 1300
+  level: 5
+  type: "Beast-Warrior"
+  guardianStars: ["Moon", "Uranus"]
+  rarity: "NORMAL"
+
+- id: 15
+  name: "Flame Swordsman"
+  baseAttack: 1800
+  baseDefense: 1600
+  level: 5
+  type: "Warrior"
+  guardianStars: ["Mars", "Sun"]
+  rarity: "NORMAL"
+
+- id: 16
+  name: "Time Wizard"
+  baseAttack: 500
+  baseDefense: 400
+  level: 2
+  type: "Spellcaster"
+  guardianStars: ["Venus", "Sun"]
+  rarity: "NORMAL"
+
+- id: 17
+  name: "Right Leg of the Forbidden One"
+  baseAttack: 200
+  baseDefense: 300
+  level: 1
+  type: "Spellcaster"
+  guardianStars: ["Mercury", "Jupiter"]
+  rarity: "NORMAL"
+
+- id: 18
+  name: "Left Leg of the Forbidden One"
+  baseAttack: 200
+  baseDefense: 300
+  level: 1
+  type: "Spellcaster"
+  guardianStars: ["Mercury", "Saturn"]
+  rarity: "NORMAL"
+
+- id: 19
+  name: "Right Arm of the Forbidden One"
+  baseAttack: 200
+  baseDefense: 300
+  level: 1
+  type: "Spellcaster"
+  guardianStars: ["Mercury", "Uranus"]
+  rarity: "NORMAL"
+
+- id: 20
+  name: "Left Arm of the Forbidden One"
+  baseAttack: 200
+  baseDefense: 300
+  level: 1
+  type: "Spellcaster"
+  guardianStars: ["Mercury", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 21
+  name: "Exodia the Forbidden"
+  baseAttack: 1000
+  baseDefense: 1000
+  level: 3
+  type: "Spellcaster"
+  guardianStars: ["Mercury", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 22
+  name: "Summoned Skull"
+  baseAttack: 2500
+  baseDefense: 1200
+  level: 6
+  type: "Fiend"
+  guardianStars: ["Moon", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 23
+  name: "The Wicked Worm Beast"
+  baseAttack: 1400
+  baseDefense: 700
+  level: 3
+  type: "Beast"
+  guardianStars: ["Uranus", "Venus"]
+  rarity: "NORMAL"
+
+- id: 24
+  name: "Skull Servant"
+  baseAttack: 300
+  baseDefense: 200
+  level: 1
+  type: "Zombie"
+  guardianStars: ["Moon", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 25
+  name: "Horn Imp"
+  baseAttack: 1300
+  baseDefense: 1000
+  level: 4
+  type: "Fiend"
+  guardianStars: ["Moon", "Mercury"]
+  rarity: "NORMAL"
+
+- id: 26
+  name: "Battle Ox"
+  baseAttack: 1700
+  baseDefense: 1000
+  level: 4
+  type: "Beast-Warrior"
+  guardianStars: ["Jupiter", "Moon"]
+  rarity: "NORMAL"
+
+- id: 27
+  name: "Beaver Warrior"
+  baseAttack: 1200
+  baseDefense: 1500
+  level: 4
+  type: "Beast-Warrior"
+  guardianStars: ["Jupiter", "Venus"]
+  rarity: "NORMAL"
+
+- id: 28
+  name: "Rock Ogre Grotto #1"
+  baseAttack: 800
+  baseDefense: 1200
+  level: 3
+  type: "Rock"
+  guardianStars: ["Uranus", "Mercury"]
+  rarity: "NORMAL"
+
+- id: 29
+  name: "Mountain Warrior"
+  baseAttack: 600
+  baseDefense: 1000
+  level: 3
+  type: "Beast-Warrior"
+  guardianStars: ["Uranus", "Mars"]
+  rarity: "NORMAL"
+
+- id: 30
+  name: "Zombie Warrior"
+  baseAttack: 1200
+  baseDefense: 900
+  level: 3
+  type: "Zombie"
+  guardianStars: ["Moon", "Mars"]
+  rarity: "NORMAL"
+
+- id: 31
+  name: "Koumori Dragon"
+  baseAttack: 1500
+  baseDefense: 1200
+  level: 4
+  type: "Dragon"
+  guardianStars: ["Moon", "Jupiter"]
+  rarity: "NORMAL"
+
+- id: 32
+  name: "Two-headed King Rex"
+  baseAttack: 1600
+  baseDefense: 1200
+  level: 4
+  type: "Dinosaur"
+  guardianStars: ["Uranus", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 33
+  name: "Judge Man"
+  baseAttack: 2200
+  baseDefense: 1500
+  level: 6
+  type: "Warrior"
+  guardianStars: ["Sun", "Saturn"]
+  rarity: "NORMAL"
+
+- id: 34
+  name: "Saggi the Dark Clown"
+  baseAttack: 600
+  baseDefense: 1500
+  level: 3
+  type: "Spellcaster"
+  guardianStars: ["Mercury", "Moon"]
+  rarity: "NORMAL"
+
+- id: 35
+  name: "Dark Magician"
+  baseAttack: 2500
+  baseDefense: 2100
+  level: 7
+  type: "Spellcaster"
+  guardianStars: ["Mercury", "Mars"]
+  rarity: "NORMAL"
+
+- id: 36
+  name: "The Snake Hair"
+  baseAttack: 1500
+  baseDefense: 1200
+  level: 4
+  type: "Zombie"
+  guardianStars: ["Moon", "Saturn"]
+  rarity: "NORMAL"
+
+- id: 37
+  name: "Gaia the Dragon Champion"
+  baseAttack: 2600
+  baseDefense: 2100
+  level: 7
+  type: "Dragon"
+  guardianStars: ["Saturn", "Mercury"]
+  rarity: "NORMAL"
+
+- id: 38
+  name: "Gaia the Fierce Knight"
+  baseAttack: 2300
+  baseDefense: 2100
+  level: 7
+  type: "Warrior"
+  guardianStars: ["Mercury", "Jupiter"]
+  rarity: "NORMAL"
+
+- id: 39
+  name: "Curse of Dragon"
+  baseAttack: 2000
+  baseDefense: 1500
+  level: 5
+  type: "Dragon"
+  guardianStars: ["Saturn", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 40
+  name: "Dragon Piper"
+  baseAttack: 200
+  baseDefense: 1800
+  level: 3
+  type: "Pyro"
+  guardianStars: ["Mars", "Moon"]
+  rarity: "NORMAL"
+
+- id: 41
+  name: "Celtic Guardian"
+  baseAttack: 1400
+  baseDefense: 1200
+  level: 4
+  type: "Warrior"
+  guardianStars: ["Sun", "Uranus"]
+  rarity: "NORMAL"
+
+- id: 42
+  name: "Illusionist Faceless Mage"
+  baseAttack: 1200
+  baseDefense: 2200
+  level: 5
+  type: "Spellcaster"
+  guardianStars: ["Venus", "Mars"]
+  rarity: "NORMAL"
+
+- id: 43
+  name: "Karbonala Warrior"
+  baseAttack: 1500
+  baseDefense: 1200
+  level: 4
+  type: "Warrior"
+  guardianStars: ["Uranus", "Jupiter"]
+  rarity: "NORMAL"
+
+- id: 44
+  name: "Rogue Doll"
+  baseAttack: 1600
+  baseDefense: 1000
+  level: 4
+  type: "Spellcaster"
+  guardianStars: ["Sun", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 45
+  name: "Oscillo Hero #2"
+  baseAttack: 1000
+  baseDefense: 500
+  level: 3
+  type: "Thunder"
+  guardianStars: ["Pluto", "Sun"]
+  rarity: "NORMAL"
+
+- id: 46
+  name: "Griffore"
+  baseAttack: 1200
+  baseDefense: 1500
+  level: 4
+  type: "Beast"
+  guardianStars: ["Jupiter", "Mercury"]
+  rarity: "NORMAL"
+
+- id: 47
+  name: "Torike"
+  baseAttack: 1200
+  baseDefense: 600
+  level: 3
+  type: "Beast"
+  guardianStars: ["Uranus", "Sun"]
+  rarity: "NORMAL"
+
+- id: 48
+  name: "Sangan"
+  baseAttack: 1000
+  baseDefense: 600
+  level: 3
+  type: "Fiend"
+  guardianStars: ["Moon", "Uranus"]
+  rarity: "NORMAL"
+
+- id: 49
+  name: "Big Insect"
+  baseAttack: 1200
+  baseDefense: 1500
+  level: 4
+  type: "Insect"
+  guardianStars: ["Jupiter", "Uranus"]
+  rarity: "NORMAL"
+
+- id: 50
+  name: "Basic Insect"
+  baseAttack: 500
+  baseDefense: 700
+  level: 2
+  type: "Insect"
+  guardianStars: ["Jupiter", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 51
+  name: "Armored Lizard"
+  baseAttack: 1500
+  baseDefense: 1200
+  level: 4
+  type: "Reptile"
+  guardianStars: ["Neptune", "Sun"]
+  rarity: "NORMAL"
+
+- id: 52
+  name: "Hercules Beetle"
+  baseAttack: 1500
+  baseDefense: 2000
+  level: 5
+  type: "Insect"
+  guardianStars: ["Jupiter", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 53
+  name: "Killer Needle"
+  baseAttack: 1200
+  baseDefense: 1000
+  level: 4
+  type: "Insect"
+  guardianStars: ["Jupiter", "Sun"]
+  rarity: "NORMAL"
+
+- id: 54
+  name: "Gokibore"
+  baseAttack: 1200
+  baseDefense: 1400
+  level: 4
+  type: "Insect"
+  guardianStars: ["Jupiter", "Moon"]
+  rarity: "NORMAL"
+
+- id: 55
+  name: "Giant Flea"
+  baseAttack: 1500
+  baseDefense: 1200
+  level: 4
+  type: "Insect"
+  guardianStars: ["Jupiter", "Venus"]
+  rarity: "NORMAL"
+
+- id: 56
+  name: "Larvae Moth"
+  baseAttack: 500
+  baseDefense: 400
+  level: 2
+  type: "Insect"
+  guardianStars: ["Jupiter", "Mercury"]
+  rarity: "NORMAL"
+
+- id: 57
+  name: "Great Moth"
+  baseAttack: 2600
+  baseDefense: 2500
+  level: 8
+  type: "Insect"
+  guardianStars: ["Jupiter", "Uranus"]
+  rarity: "NORMAL"
+
+- id: 58
+  name: "Kuriboh"
+  baseAttack: 300
+  baseDefense: 200
+  level: 1
+  type: "Fiend"
+  guardianStars: ["Mercury", "Saturn"]
+  rarity: "NORMAL"
+
+- id: 59
+  name: "Mammoth Graveyard"
+  baseAttack: 1200
+  baseDefense: 800
+  level: 3
+  type: "Dinosaur"
+  guardianStars: ["Mercury", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 60
+  name: "Great White"
+  baseAttack: 1600
+  baseDefense: 800
+  level: 4
+  type: "Fish"
+  guardianStars: ["Neptune", "Moon"]
+  rarity: "NORMAL"
+
+- id: 61
+  name: "Wolf"
+  baseAttack: 1200
+  baseDefense: 800
+  level: 3
+  type: "Beast"
+  guardianStars: ["Jupiter", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 62
+  name: "Harpie Lady"
+  baseAttack: 1300
+  baseDefense: 1400
+  level: 4
+  type: "Winged Beast"
+  guardianStars: ["Saturn", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 63
+  name: "Harpie Lady Sisters"
+  baseAttack: 1950
+  baseDefense: 2100
+  level: 6
+  type: "Winged Beast"
+  guardianStars: ["Saturn", "Mars"]
+  rarity: "NORMAL"
+
+- id: 64
+  name: "Tiger Axe"
+  baseAttack: 1300
+  baseDefense: 1100
+  level: 4
+  type: "Beast-Warrior"
+  guardianStars: ["Jupiter", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 65
+  name: "Silver Fang"
+  baseAttack: 1200
+  baseDefense: 800
+  level: 3
+  type: "Beast"
+  guardianStars: ["Jupiter", "Sun"]
+  rarity: "NORMAL"
+
+- id: 66
+  name: "Kojikocy"
+  baseAttack: 1500
+  baseDefense: 1200
+  level: 4
+  type: "Warrior"
+  guardianStars: ["Uranus", "Moon"]
+  rarity: "NORMAL"
+
+- id: 67
+  name: "Perfectly Ultimate Great Moth"
+  baseAttack: 3500
+  baseDefense: 3000
+  level: 8
+  type: "Insect"
+  guardianStars: ["Jupiter", "Moon"]
+  rarity: "NORMAL"
+
+- id: 68
+  name: "Garoozis"
+  baseAttack: 1800
+  baseDefense: 1500
+  level: 5
+  type: "Beast-Warrior"
+  guardianStars: ["Mars", "Venus"]
+  rarity: "NORMAL"
+
+- id: 69
+  name: "Thousand Dragon"
+  baseAttack: 2400
+  baseDefense: 2000
+  level: 7
+  type: "Dragon"
+  guardianStars: ["Mars", "Mercury"]
+  rarity: "NORMAL"
+
+- id: 70
+  name: "Fiend Kraken"
+  baseAttack: 1200
+  baseDefense: 1400
+  level: 4
+  type: "Aqua"
+  guardianStars: ["Neptune", "Venus"]
+  rarity: "NORMAL"
+
+- id: 71
+  name: "Jellyfish"
+  baseAttack: 1200
+  baseDefense: 1500
+  level: 4
+  type: "Aqua"
+  guardianStars: ["Neptune", "Mercury"]
+  rarity: "NORMAL"
+
+- id: 72
+  name: "Cocoon of Evolution"
+  baseAttack: 0
+  baseDefense: 2000
+  level: 3
+  type: "Insect"
+  guardianStars: ["Jupiter", "Venus"]
+  rarity: "NORMAL"
+
+- id: 73
+  name: "Kairyu-Shin"
+  baseAttack: 1800
+  baseDefense: 1500
+  level: 5
+  type: "Sea Serpent"
+  guardianStars: ["Neptune", "Mars"]
+  rarity: "NORMAL"
+
+- id: 74
+  name: "Giant Soldier of Stone"
+  baseAttack: 1300
+  baseDefense: 2000
+  level: 3
+  type: "Rock"
+  guardianStars: ["Uranus", "Venus"]
+  rarity: "NORMAL"
+
+- id: 75
+  name: "Man-eating Plant"
+  baseAttack: 800
+  baseDefense: 600
+  level: 2
+  type: "Plant"
+  guardianStars: ["Mercury", "Jupiter"]
+  rarity: "NORMAL"
+
+- id: 76
+  name: "Krokodilus"
+  baseAttack: 1100
+  baseDefense: 1200
+  level: 4
+  type: "Reptile"
+  guardianStars: ["Neptune", "Jupiter"]
+  rarity: "NORMAL"
+
+- id: 77
+  name: "Grappler"
+  baseAttack: 1300
+  baseDefense: 1200
+  level: 4
+  type: "Reptile"
+  guardianStars: ["Neptune", "Saturn"]
+  rarity: "NORMAL"
+
+- id: 78
+  name: "Axe Raider"
+  baseAttack: 1700
+  baseDefense: 1150
+  level: 4
+  type: "Warrior"
+  guardianStars: ["Uranus", "Mercury"]
+  rarity: "NORMAL"
+
+- id: 79
+  name: "Megazowler"
+  baseAttack: 1800
+  baseDefense: 2000
+  level: 6
+  type: "Dinosaur"
+  guardianStars: ["Uranus", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 80
+  name: "Uraby"
+  baseAttack: 1500
+  baseDefense: 800
+  level: 4
+  type: "Dinosaur"
+  guardianStars: ["Uranus", "Mars"]
+  rarity: "NORMAL"
+
+- id: 81
+  name: "Crawling Dragon #2"
+  baseAttack: 1600
+  baseDefense: 1200
+  level: 4
+  type: "Dinosaur"
+  guardianStars: ["Moon", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 82
+  name: "Red-eyes B. Dragon"
+  baseAttack: 2400
+  baseDefense: 2000
+  level: 7
+  type: "Dragon"
+  guardianStars: ["Moon", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 83
+  name: "Castle of Dark Illusions"
+  baseAttack: 920
+  baseDefense: 1930
+  level: 4
+  type: "Fiend"
+  guardianStars: ["Mercury", "Uranus"]
+  rarity: "NORMAL"
+
+- id: 84
+  name: "Reaper of the Cards"
+  baseAttack: 1380
+  baseDefense: 1930
+  level: 5
+  type: "Fiend"
+  guardianStars: ["Moon", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 85
+  name: "King of Yamimakai"
+  baseAttack: 2000
+  baseDefense: 1530
+  level: 5
+  type: "Fiend"
+  guardianStars: ["Moon", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 86
+  name: "Barox"
+  baseAttack: 1380
+  baseDefense: 1530
+  level: 5
+  type: "Fiend"
+  guardianStars: ["Jupiter", "Mercury"]
+  rarity: "NORMAL"
+
+- id: 87
+  name: "Dark Chimera"
+  baseAttack: 1610
+  baseDefense: 1460
+  level: 5
+  type: "Fiend"
+  guardianStars: ["Mercury", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 88
+  name: "Metal Guardian"
+  baseAttack: 1150
+  baseDefense: 2150
+  level: 5
+  type: "Fiend"
+  guardianStars: ["Moon", "Mercury"]
+  rarity: "NORMAL"
+
+- id: 89
+  name: "Catapult Turtle"
+  baseAttack: 1000
+  baseDefense: 2000
+  level: 5
+  type: "Aqua"
+  guardianStars: ["Neptune", "Sun"]
+  rarity: "NORMAL"
+
+- id: 90
+  name: "Gyakutenno Megami"
+  baseAttack: 1800
+  baseDefense: 2000
+  level: 6
+  type: "Fairy"
+  guardianStars: ["Sun", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 91
+  name: "Mystic Horseman"
+  baseAttack: 1300
+  baseDefense: 1550
+  level: 4
+  type: "Beast"
+  guardianStars: ["Jupiter", "Uranus"]
+  rarity: "NORMAL"
+
+- id: 92
+  name: "Rabid Horseman"
+  baseAttack: 2000
+  baseDefense: 1700
+  level: 6
+  type: "Beast-Warrior"
+  guardianStars: ["Jupiter", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 93
+  name: "Zanki"
+  baseAttack: 1500
+  baseDefense: 1700
+  level: 5
+  type: "Warrior"
+  guardianStars: ["Uranus", "Jupiter"]
+  rarity: "NORMAL"
+
+- id: 94
+  name: "Crawling Dragon"
+  baseAttack: 1600
+  baseDefense: 1400
+  level: 5
+  type: "Dragon"
+  guardianStars: ["Uranus", "Sun"]
+  rarity: "NORMAL"
+
+- id: 95
+  name: "Crass Clown"
+  baseAttack: 1350
+  baseDefense: 1400
+  level: 4
+  type: "Fiend"
+  guardianStars: ["Venus", "Jupiter"]
+  rarity: "NORMAL"
+
+- id: 96
+  name: "Armored Zombie"
+  baseAttack: 1500
+  baseDefense: 0
+  level: 3
+  type: "Zombie"
+  guardianStars: ["Moon", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 97
+  name: "Dragon Zombie"
+  baseAttack: 1600
+  baseDefense: 0
+  level: 3
+  type: "Zombie"
+  guardianStars: ["Moon", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 98
+  name: "Clown Zombie"
+  baseAttack: 1350
+  baseDefense: 0
+  level: 2
+  type: "Zombie"
+  guardianStars: ["Moon", "Pluto"]
+  rarity: "NORMAL"
+
+- id: 99
+  name: "Pumpking the King of Ghosts"
+  baseAttack: 1800
+  baseDefense: 2000
+  level: 6
+  type: "Zombie"
+  guardianStars: ["Jupiter", "Neptune"]
+  rarity: "NORMAL"
+
+- id: 100
+  name: "Battle Warrior"
+  baseAttack: 700
+  baseDefense: 1000
+  level: 3
+  type: "Warrior"
+  guardianStars: ["Uranus", "Moon"]
+  rarity: "NORMAL"

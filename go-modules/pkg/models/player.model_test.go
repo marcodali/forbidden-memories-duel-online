@@ -51,7 +51,7 @@ func TestNewPlayer(t *testing.T) {
 				assert.NotNil(t, player)
 				assert.Equal(t, tt.username, player.Username)
 				assert.True(t, player.IsOnline)
-				assert.False(t, player.IsInDuel)
+				assert.False(t, player.IsDueling)
 				assert.Equal(t, 0, player.TotalDuels)
 				assert.Equal(t, 0, player.WinCount)
 				assert.Equal(t, 0, player.LossCount)

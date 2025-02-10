@@ -53,5 +53,4 @@ The classic forbidden memories for ps1 game but online p2p
 - **Deck:** A set of cards a player can use.
 - **Game:** Represents an instance of the game.
 - **Turn:** Manages the turn cycle in the game.
-- **Effect:** Represents special effects of cards.
 - **Event:** Handles events occurring during the game.

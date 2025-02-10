@@ -20,32 +20,83 @@ const (
 	RarityGhost      Rarity = "GHOST_RARE"
 )
 
+type TypeCard string
+
+const (
+	TypeEquip        TypeCard = "Equip"
+	TypeMagic        TypeCard = "Magic"
+	TypeRitual       TypeCard = "Ritual"
+	TypeTrap         TypeCard = "Trap"
+	TypeZombie       TypeCard = "Zombie"
+	TypeSpellCaster  TypeCard = "SpellCaster"
+	TypeFiend        TypeCard = "Fiend"
+	TypePlant        TypeCard = "Plant"
+	TypeRock         TypeCard = "Rock"
+	TypeInsect       TypeCard = "Inscect"
+	TypeAqua         TypeCard = "Aqua"
+	TypeFairy        TypeCard = "Faity"
+	TypeMachine      TypeCard = "Machine"
+	TypeWarrior      TypeCard = "Warrior"
+	TypeBeast        TypeCard = "Beast"
+	TypeReptile      TypeCard = "Repitle"
+	TypePyro         TypeCard = "Pyro"
+	TypeDinasour     TypeCard = "Dinasour"
+	TypeDragon       TypeCard = "Dragon"
+	TypeThunder      TypeCard = "Thunder"
+	TypeWingedBeast  TypeCard = "Winged Beast"
+	TypeBeastWarrior TypeCard = "Beast-Warrior"
+	TypeFish         TypeCard = "Fish"
+	TypeSeaSerpent   TypeCard = "Sea Serpent"
+)
+
+var validMonsterTypes = map[TypeCard]bool{
+	TypeZombie:       true,
+	TypeSpellCaster:  true,
+	TypeFiend:        true,
+	TypePlant:        true,
+	TypeRock:         true,
+	TypeInsect:       true,
+	TypeAqua:         true,
+	TypeFairy:        true,
+	TypeMachine:      true,
+	TypeWarrior:      true,
+	TypeBeast:        true,
+	TypeReptile:      true,
+	TypePyro:         true,
+	TypeDinasour:     true,
+	TypeDragon:       true,
+	TypeThunder:      true,
+	TypeWingedBeast:  true,
+	TypeBeastWarrior: true,
+	TypeFish:         true,
+	TypeSeaSerpent:   true,
+}
+
 // defines the rules for equip cards
 type EquipRules struct {
 	ValidTargetIDs []int `yaml:"validTargetIDs"` // List of card IDs that can be equipped
 	Bonus          int   `yaml:"bonus"`          // Bonus applied to both ATK and DEF
 }
 
+type RitualRules struct {
+	Material         []int `yaml:"materialIDs"`
+	IsRitualResult   bool  `yaml:"isRitualResult"`
+	IsRitualMaterial bool  `yaml:"isRitualMaterial"`
+}
+
 // contains the immutable properties of a card
 type CardTemplate struct {
-	ID               int         `yaml:"id"`
-	Name             string      `yaml:"name"`
-	Description      string      `yaml:"description"`
-	BaseAttack       int         `yaml:"baseAttack"`
-	BaseDefense      int         `yaml:"baseDefense"`
-	Level            int         `yaml:"level"`
-	MainType         string      `yaml:"mainType"`
-	SubType          string      `yaml:"subType"`
-	GuardianStars    [2]string   `yaml:"guardianStars"`
-	Rarity           Rarity      `yaml:"rarity"`
-	IsFusion         bool        `yaml:"isFusion"`
-	IsFusionMaterial bool        `yaml:"isFusionMaterial"`
-	IsMagic          bool        `yaml:"isMagic"`
-	IsEquip          bool        `yaml:"isEquip"`
-	IsTrap           bool        `yaml:"isTrap"`
-	IsRitual         bool        `yaml:"isRitual"`
-	Image            string      `yaml:"image"`
-	EquipRules       *EquipRules `yaml:"equipRules,omitempty"`
+	ID            int          `yaml:"id"`
+	Name          string       `yaml:"name"`
+	Description   string       `yaml:"description"`
+	BaseAttack    int          `yaml:"baseAttack"`
+	BaseDefense   int          `yaml:"baseDefense"`
+	Level         int          `yaml:"level"`
+	Type          TypeCard     `yaml:"type"`
+	GuardianStars []string     `yaml:"guardianStars"` // slices initialize to nil instead of {"", ""}
+	Rarity        Rarity       `yaml:"rarity"`
+	EquipRules    *EquipRules  `yaml:"equipRules,omitempty"`
+	RitualRules   *RitualRules `yaml:"ritualRules,omitempty"`
 }
 
 // represents a card in play

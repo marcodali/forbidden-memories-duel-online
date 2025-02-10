@@ -13,13 +13,13 @@ const (
 	DeckTypeMountain  DeckType = "MOUNTAIN"
 	DeckTypeYami      DeckType = "YAMI"
 	DeckTypeForest    DeckType = "FOREST"
-	DeckTypeWater     DeckType = "WATER"
+	DeckTypeAqua      DeckType = "AQUA"
 	DeckTypeWarrior   DeckType = "WARRIOR"
 	DeckTypeWasteland DeckType = "WASTELAND"
 	DeckTypeGeneric   DeckType = "GENERIC"
 )
 
-var varifiedDeckTypes = []DeckType{DeckTypeFemale, DeckTypeMountain, DeckTypeYami, DeckTypeForest, DeckTypeWater, DeckTypeWarrior, DeckTypeWasteland, DeckTypeGeneric}
+var varifiedDeckTypes = []DeckType{DeckTypeFemale, DeckTypeMountain, DeckTypeYami, DeckTypeForest, DeckTypeAqua, DeckTypeWarrior, DeckTypeWasteland, DeckTypeGeneric}
 
 // Deck represents a collection of cards that a player can use in a game
 type Deck struct {

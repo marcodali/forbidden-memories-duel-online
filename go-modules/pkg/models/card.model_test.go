@@ -8,40 +8,20 @@ import (
 
 func TestLoadCardsfromYAML(t *testing.T) {
 	data := `
-- id: 1
+- id: 1001
   name: "Test Card"
   description: "A test card"
   baseAttack: 800
   baseDefense: 400
   level: 4
-  mainType: "Warrior"
-  subType: "Normal"
+  type: "Warrior"
   guardianStars: ["Mars", "Jupiter"]
   rarity: "NORMAL"
-  isFusion: false
-  isFusionMaterial: false
-  isMagic: false
-  isEquip: false
-  isTrap: false
-  isRitual: false
-  image: "test_card.png"
-- id: 2
-  name: "Malevolent Nuzzler"
-  description: "An equip card"
-  baseAttack: 0
-  baseDefense: 0
-  level: 0
-  mainType: "Magic"
-  subType: "Equip"
-  guardianStars: ["None", "None"]
+- id: 2002
+  name: "Fake Malevolent Nuzzler"
+  description: "A fake equip card"
+  type: "Equip"
   rarity: "NORMAL"
-  isFusion: false
-  isFusionMaterial: false
-  isMagic: true
-  isEquip: true
-  isTrap: false
-  isRitual: false
-  image: "malevolent_nuzzler.png"
   equipRules:
     validTargetIDs: [33]
     bonus: 700
@@ -53,23 +33,15 @@ func TestLoadCardsfromYAML(t *testing.T) {
 
 func TestLoadCardsfromYAMLWithInvalidData(t *testing.T) {
 	invalidData := `
-- id: 1
+- id: 5000
   name: "Invalid YAML Card because there is no closing quote here
   description: "A card with invalid YAML format"
   baseAttack: 800
   baseDefense: 400
   level: 4
-  mainType: "Warrior"
-  subType: "Normal"
+  type: "Warrior"
   guardianStars: ["Mars", "Jupiter"]
   rarity: "NORMAL"
-  isFusion: false
-  isFusionMaterial: false
-  isMagic: false
-  isEquip: false
-  isTrap: false
-  isRitual: false
-  image: "invalid_card.png"
 `
 	registry := GetCardRegistry()
 	err := registry.LoadCardsfromYAML([]byte(invalidData))
@@ -82,13 +54,13 @@ func TestLoadCardsfromYAMLWithInvalidData(t *testing.T) {
 
 func TestGetCard(t *testing.T) {
 	registry := GetCardRegistry()
-	cardTemplate := registry.GetCard(1)
+	cardTemplate := registry.GetCard(1001)
 	assert.NotNil(t, cardTemplate)
-	assert.Equal(t, 1, cardTemplate.ID)
+	assert.Equal(t, 1001, cardTemplate.ID)
 }
 
 func TestNewCardInstance(t *testing.T) {
-	playableCard, err := NewCardInstance(1)
+	playableCard, err := NewCardInstance(1001)
 	assert.NoError(t, err)
 	assert.NotNil(t, playableCard)
 	assert.Equal(t, 800, playableCard.CurrentAttack)
@@ -117,10 +89,11 @@ func TestSingletonCardRegistry(t *testing.T) {
 
 func TestEquipCard(t *testing.T) {
 	registry := GetCardRegistry()
-	equipCard := registry.GetCard(2) // Malevolent Nuzzler
+	equipCard := registry.GetCard(2002) // Fake Malevolent Nuzzler
 
 	assert.NotNil(t, equipCard)
-	assert.True(t, equipCard.IsEquip)
+	assert.Equal(t, equipCard.ID, 2002)
+	assert.Equal(t, equipCard.Type, TypeEquip)
 	assert.NotNil(t, equipCard.EquipRules)
 	assert.Equal(t, 1, len(equipCard.EquipRules.ValidTargetIDs))
 	assert.Equal(t, 33, equipCard.EquipRules.ValidTargetIDs[0])

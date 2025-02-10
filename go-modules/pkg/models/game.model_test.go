@@ -16,6 +16,7 @@ func TestNewGame(t *testing.T) {
 	game, err := NewGame([2]*Deck{deck1, deck2})
 	assert.NoError(t, err)
 	assert.NotNil(t, game)
+	assert.NotNil(t, game.Board)
 	assert.Equal(t, GameReadyToStart, game.State)
 	assert.Equal(t, 0, game.CurrentTurn)
 	assert.Equal(t, deck1, game.Decks[game.CurrentTurn])
