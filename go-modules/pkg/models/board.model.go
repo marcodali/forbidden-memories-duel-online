@@ -47,5 +47,5 @@ func (b *Board) SetCardAtIndexPosition(state *CardState, currentTurn int) error 
 		return nil
 	}
 
-	return fmt.Errorf("invalid card type")
+	return fmt.Errorf("invalid card type %q", state.Card.Template.Type)
 }
