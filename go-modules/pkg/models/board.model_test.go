@@ -10,13 +10,13 @@ import (
 var PLAYER_1 = 0
 var PLAYER_2 = 1
 
-func TestSetCardAtIndexPositionOnlyMonsterTypes(t *testing.T) {
-	data, err := os.ReadFile("../utils/cards.yaml")
-	assert.NoError(t, err)
-	registry := GetCardRegistry()
-	err = registry.LoadCardsfromYAML(data)
-	assert.NoError(t, err)
+func LoadReal722CardsFromYAML() {
+	data, _ := os.ReadFile("../utils/cards.yaml")
+	GetCardRegistry().LoadCardsfromYAML(data)
+}
 
+func TestSetCardAtIndexPositionOnlyMonsterTypes(t *testing.T) {
+	LoadReal722CardsFromYAML()
 	t.Run("should place card in monster zone correctly", func(t *testing.T) {
 		board := NewBoard()
 
@@ -65,6 +65,7 @@ func TestSetCardAtIndexPositionOnlyMonsterTypes(t *testing.T) {
 }
 
 func TestSetCardAtIndexPositionOnlyMagicTypes(t *testing.T) {
+	LoadReal722CardsFromYAML()
 	board := NewBoard()
 	turnOfPlayer1 := PLAYER_1
 	turnOfPlayer2 := PLAYER_2

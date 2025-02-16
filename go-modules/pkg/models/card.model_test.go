@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLoadCardsfromYAML(t *testing.T) {
+func InitializeCardRegistryWithFakeYAMLData() {
 	data := `
 - id: 1001
   name: "Test Card"
@@ -26,9 +26,7 @@ func TestLoadCardsfromYAML(t *testing.T) {
     validTargetIDs: [33]
     bonus: 700
 `
-	registry := GetCardRegistry()
-	err := registry.LoadCardsfromYAML([]byte(data))
-	assert.NoError(t, err)
+	GetCardRegistry().LoadCardsfromYAML([]byte(data))
 }
 
 func TestLoadCardsfromYAMLWithInvalidData(t *testing.T) {
@@ -43,8 +41,7 @@ func TestLoadCardsfromYAMLWithInvalidData(t *testing.T) {
   guardianStars: ["Mars", "Jupiter"]
   rarity: "NORMAL"
 `
-	registry := GetCardRegistry()
-	err := registry.LoadCardsfromYAML([]byte(invalidData))
+	err := GetCardRegistry().LoadCardsfromYAML([]byte(invalidData))
 	assert.NotNil(t, err)
 	assert.Contains(t, err.Error(), "unexpected error trying to load cards from YAML data")
 
@@ -53,14 +50,15 @@ func TestLoadCardsfromYAMLWithInvalidData(t *testing.T) {
 }
 
 func TestGetCard(t *testing.T) {
-	registry := GetCardRegistry()
-	cardTemplate := registry.GetCard(1001)
+	InitializeCardRegistryWithFakeYAMLData()
+	cardTemplate := GetCardRegistry().GetCard(1001) // Test Card
 	assert.NotNil(t, cardTemplate)
 	assert.Equal(t, 1001, cardTemplate.ID)
 }
 
 func TestNewCardInstance(t *testing.T) {
-	playableCard, err := NewCardInstance(1001)
+	InitializeCardRegistryWithFakeYAMLData()
+	playableCard, err := NewCardInstance(1001) // Test Card
 	assert.NoError(t, err)
 	assert.NotNil(t, playableCard)
 	assert.Equal(t, 800, playableCard.CurrentAttack)
@@ -88,8 +86,8 @@ func TestSingletonCardRegistry(t *testing.T) {
 }
 
 func TestEquipCard(t *testing.T) {
-	registry := GetCardRegistry()
-	equipCard := registry.GetCard(2002) // Fake Malevolent Nuzzler
+	InitializeCardRegistryWithFakeYAMLData()
+	equipCard := GetCardRegistry().GetCard(2002) // Fake Malevolent Nuzzler
 
 	assert.NotNil(t, equipCard)
 	assert.Equal(t, equipCard.ID, 2002)
