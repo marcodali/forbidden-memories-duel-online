@@ -2,7 +2,7 @@
 The classic forbidden memories for ps1 game but online p2p
 
 ## Project Structure
-```go
+```bash
 /go-modules/
 ├── cmd/                    # Entry points for applications
 ├── internal/               # Private application code
@@ -54,3 +54,12 @@ The classic forbidden memories for ps1 game but online p2p
 - **Game:** Represents an instance of the game.
 - **Turn:** Manages the turn cycle in the game.
 - **Event:** Handles events occurring during the game.
+
+## Run unit tests
+
+```bash
+cd go-modules/
+go test -cover -coverprofile=./coverage.out ./pkg/models/ -v #verbose output
+go test -cover -coverprofile=./coverage.out ./pkg/models/ #silence mode
+go tool cover -html=./coverage.out
+```
