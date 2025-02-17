@@ -1,12 +1,27 @@
 package models
 
 import (
+	"fmt"
+	"path/filepath"
+	"runtime"
+	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
+var singletonForCardModel sync.Once
+
+func initializeCardTestSuite() {
+	singletonForCardModel.Do(func() {
+		_, filename, _, _ := runtime.Caller(0)
+		fmt.Println("This setup code executes only one time for the file", filepath.Base(filename))
+		CleanRegistry()
+	})
+}
+
 func InitializeCardRegistryWithFakeYAMLData() {
+	initializeCardTestSuite()
 	data := `
 - id: 1001
   name: "Test Card"
@@ -30,6 +45,7 @@ func InitializeCardRegistryWithFakeYAMLData() {
 }
 
 func TestLoadCardsfromYAMLWithInvalidData(t *testing.T) {
+	initializeCardTestSuite()
 	invalidData := `
 - id: 5000
   name: "Invalid YAML Card because there is no closing quote here
@@ -50,6 +66,7 @@ func TestLoadCardsfromYAMLWithInvalidData(t *testing.T) {
 }
 
 func TestGetCard(t *testing.T) {
+	initializeCardTestSuite()
 	InitializeCardRegistryWithFakeYAMLData()
 	cardTemplate := GetCardRegistry().GetCard(1001) // Test Card
 	assert.NotNil(t, cardTemplate)
@@ -57,6 +74,7 @@ func TestGetCard(t *testing.T) {
 }
 
 func TestNewCardInstance(t *testing.T) {
+	initializeCardTestSuite()
 	InitializeCardRegistryWithFakeYAMLData()
 	playableCard, err := NewCardInstance(1001) // Test Card
 	assert.NoError(t, err)
@@ -79,6 +97,7 @@ func TestNewCardInstance(t *testing.T) {
 }
 
 func TestSingletonCardRegistry(t *testing.T) {
+	initializeCardTestSuite()
 	registryA := GetCardRegistry()
 	registryB := GetCardRegistry()
 	assert.Equal(t, registryA, registryB)
@@ -86,6 +105,7 @@ func TestSingletonCardRegistry(t *testing.T) {
 }
 
 func TestEquipCard(t *testing.T) {
+	initializeCardTestSuite()
 	InitializeCardRegistryWithFakeYAMLData()
 	equipCard := GetCardRegistry().GetCard(2002) // Fake Malevolent Nuzzler
 

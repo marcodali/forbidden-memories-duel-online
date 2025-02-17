@@ -113,13 +113,21 @@ type CardRegistry struct {
 }
 
 var (
-	registry *CardRegistry
-	once     sync.Once
+	registry             *CardRegistry
+	singletonForRegistry sync.Once
+	mutex                sync.Mutex
 )
+
+func CleanRegistry() {
+	mutex.Lock()
+	defer mutex.Unlock()
+	registry = nil
+	singletonForRegistry = sync.Once{}
+}
 
 // returns the singleton instance of the card registry
 func GetCardRegistry() *CardRegistry {
-	once.Do(func() {
+	singletonForRegistry.Do(func() {
 		registry = &CardRegistry{
 			templates: make(map[int]*CardTemplate),
 		}
@@ -136,6 +144,7 @@ func (r *CardRegistry) LoadCardsfromYAML(data []byte) error {
 	for _, template := range templates {
 		r.templates[template.ID] = template
 	}
+	fmt.Printf("Registry has a total of %d cards loaded", len(r.templates))
 	return nil
 }
 
