@@ -54,7 +54,7 @@ func TestSetCardAtIndexPositionOnlyMonsterTypes(t *testing.T) {
 		cardStatePlayerA = &CardState{Card: babyDragon, FaceUp: true, IndexPosition: 5}
 		err = board.SetCardAtIndexPosition(cardStatePlayerA, turnOfPlayerA)
 		assert.Error(t, err)
-		assert.Contains(t, err.Error(), "invalid index position")
+		assert.Contains(t, err.Error(), "invalid card index position")
 
 		// to see this error message, run the test with -v flag
 		t.Logf("Error: %v", err)
@@ -75,7 +75,7 @@ func TestSetCardAtIndexPositionOnlyMonsterTypes(t *testing.T) {
 		cardStatePlayerB = &CardState{Card: tyhone, FaceUp: false, IndexPosition: -1}
 		err = board.SetCardAtIndexPosition(cardStatePlayerB, turnOfPlayerA)
 		assert.Error(t, err)
-		assert.Contains(t, err.Error(), "invalid index position")
+		assert.Contains(t, err.Error(), "invalid card index position")
 
 		// to see this error message, run the test with -v flag
 		t.Logf("Error: %v", err)

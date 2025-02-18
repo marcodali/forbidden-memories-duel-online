@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"slices"
 )
 
 // DeckType represents predefined archetypes for decks
@@ -19,7 +20,7 @@ const (
 	DeckTypeGeneric   DeckType = "GENERIC"
 )
 
-var varifiedDeckTypes = []DeckType{DeckTypeFemale, DeckTypeMountain, DeckTypeYami, DeckTypeForest, DeckTypeAqua, DeckTypeWarrior, DeckTypeWasteland, DeckTypeGeneric}
+var validDeckTypes = []DeckType{DeckTypeFemale, DeckTypeMountain, DeckTypeYami, DeckTypeForest, DeckTypeAqua, DeckTypeWarrior, DeckTypeWasteland, DeckTypeGeneric}
 
 // Deck represents a collection of cards that a player can use in a game
 type Deck struct {
@@ -67,12 +68,10 @@ func (d *Deck) MoveCardsFromRemainingToHand(count int) error {
 }
 
 func (d *Deck) SetDeckType(deckType DeckType) error {
-	// verify if deckType is in the list of varifiedDeckTypes
-	for _, t := range varifiedDeckTypes {
-		if t == deckType {
-			d.DeckType = &deckType
-			return nil
-		}
+	// verify if deckType is in the list of validDeckTypes
+	if slices.Contains(validDeckTypes, deckType) {
+		d.DeckType = &deckType
+		return nil
 	}
-	return fmt.Errorf("invalid deck type %q: expected one of [%v]", deckType, varifiedDeckTypes)
+	return fmt.Errorf("invalid deck type %q: expected one of [%v]", deckType, validDeckTypes)
 }

@@ -33,7 +33,7 @@ func NewBoard() *Board {
 // places a card in its corresponding zone based on its type
 func (b *Board) SetCardAtIndexPosition(state *CardState, currentTurn int) error {
 	if state.IndexPosition < 0 || state.IndexPosition >= 5 {
-		return fmt.Errorf("invalid index position: %d", state.IndexPosition)
+		return fmt.Errorf("invalid card index position: %d", state.IndexPosition)
 	}
 
 	switch state.Card.Template.Type {

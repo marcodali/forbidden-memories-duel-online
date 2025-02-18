@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"slices"
+
 	"github.com/google/uuid"
 )
 
@@ -17,7 +19,7 @@ const (
 	Apple    AuthProvider = "APPLE"
 )
 
-var verifiedProviders = []AuthProvider{Google, Facebook, Apple}
+var validAuthProviders = []AuthProvider{Google, Facebook, Apple}
 
 const (
 	Canada     = "CA"
@@ -30,21 +32,22 @@ const (
 	Aregentina = "AR"
 )
 
-var verifiedCountries = []string{Canada, USA, Mexico, Colombia, Brazil, Chile, Peru, Aregentina}
+var validSignUpCountries = []string{Canada, USA, Mexico, Colombia, Brazil, Chile, Peru, Aregentina}
 
 type Player struct {
-	ID           string
-	Username     string
-	Country      string
-	RegisteredAt time.Time
-	LastLogin    time.Time
-	AuthProvider AuthProvider
-	IsOnline     bool
-	IsDueling    bool
-	LifePoints   int
-	TotalDuels   int
-	WinCount     int
-	LossCount    int
+	ID                    string
+	Username              string
+	Country               string
+	WhenSignedUp          time.Time
+	LastLogin             time.Time
+	AuthProvider          AuthProvider
+	IsOnline              bool
+	IsDueling             bool
+	RemainingTurnsToAtack int // 0 means no waiting is needed and the player can atack now!
+	LifePoints            int
+	TotalDuels            int
+	WinCount              int
+	LossCount             int
 }
 
 func NewPlayer(username string) (*Player, error) {
@@ -56,7 +59,7 @@ func NewPlayer(username string) (*Player, error) {
 	return &Player{
 		ID:           generateUUID(),
 		Username:     username,
-		RegisteredAt: now,
+		WhenSignedUp: now,
 		LastLogin:    now,
 		IsOnline:     true,
 		IsDueling:    false,
@@ -71,25 +74,21 @@ func generateUUID() string {
 }
 
 func (p *Player) SetCountry(country string) error {
-	// verify if the country is in the list of verified countries
-	for _, c := range verifiedCountries {
-		if c == country {
-			p.Country = country
-			return nil
-		}
+	// verify if the country is in the list of valid sign-up countries
+	if slices.Contains(validSignUpCountries, country) {
+		p.Country = country
+		return nil
 	}
-	return fmt.Errorf("invalid country %q: expected one of [%v]", country, verifiedCountries)
+	return fmt.Errorf("invalid country %q: expected one of [%v]", country, validSignUpCountries)
 }
 
 func (p *Player) SetAuthProvider(authProvider AuthProvider) error {
-	// verify if the auth provider is in the list of verified providers
-	for _, provider := range verifiedProviders {
-		if provider == authProvider {
-			p.AuthProvider = authProvider
-			return nil
-		}
+	// verify if the auth provider is in the list of valid auth providers
+	if slices.Contains(validAuthProviders, authProvider) {
+		p.AuthProvider = authProvider
+		return nil
 	}
-	return fmt.Errorf("invalid auth provider %q: expected one of [%v]", authProvider, verifiedProviders)
+	return fmt.Errorf("invalid auth provider %q: expected one of [%v]", authProvider, validAuthProviders)
 }
 
 func (p *Player) UpdateLastLogin() {

@@ -72,7 +72,7 @@ func TestNewPlayer(t *testing.T) {
 				assert.Equal(t, 0, player.LossCount)
 
 				// Verify timestamps are recent
-				assert.WithinDuration(t, time.Now(), player.RegisteredAt, 1*time.Second)
+				assert.WithinDuration(t, time.Now(), player.WhenSignedUp, 1*time.Second)
 				assert.WithinDuration(t, time.Now(), player.LastLogin, 1*time.Second)
 
 				// call country setter method

@@ -6,6 +6,7 @@ import (
 	"runtime"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -36,6 +37,8 @@ func TestNewGame(t *testing.T) {
 	assert.Equal(t, 0, game.CurrentTurn.PlayerIndex)
 	assert.Equal(t, deckA, game.Decks[game.CurrentTurn.PlayerIndex])
 	assert.Equal(t, playerA, game.CurrentTurn.CurrentPlayer)
+	assert.Equal(t, 0, len(*game.Events))
+	assert.Equal(t, time.Duration(0), game.DuelDuration)
 }
 
 func TestNewGameWithInvalidDecks(t *testing.T) {
@@ -59,6 +62,7 @@ func TestStartGame(t *testing.T) {
 
 	game, _ := NewGame([2]*Deck{deckA, deckB})
 
+	assert.Equal(t, GameReadyToStart, game.State)
 	err := game.Start()
 	assert.NoError(t, err)
 	assert.Equal(t, GameInProgress, game.State)
@@ -67,6 +71,37 @@ func TestStartGame(t *testing.T) {
 	err = game.Start()
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "game cannot be started in its current state")
+
+	// to see this error message, run the test with -v flag
+	t.Logf("Error: %v", err)
+}
+
+func TestFinishGame(t *testing.T) {
+	initializeGameTestSuite()
+	playerA, _ := NewPlayer("PlayerA")
+	playerB, _ := NewPlayer("PlayerB")
+
+	deckA, _ := NewDeck(playerA, [40]*CardInstance{})
+	deckB, _ := NewDeck(playerB, [40]*CardInstance{})
+
+	game, _ := NewGame([2]*Deck{deckA, deckB})
+
+	err := game.Finish()
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "game cannot be finished in its current state")
+
+	// to see this error message, run the test with -v flag
+	t.Logf("Error: %v", err)
+
+	game.Start()
+	err = game.Finish()
+	assert.Nil(t, err)
+	assert.GreaterOrEqual(t, game.DuelDuration, 1*time.Nanosecond, "duel duration is at least 1 nano second")
+
+	// finish the game twice causes an error too
+	err = game.Finish()
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "game cannot be finished in its current state")
 
 	// to see this error message, run the test with -v flag
 	t.Logf("Error: %v", err)
@@ -162,4 +197,41 @@ func TestNextTurnWithInvalidPhaseState(t *testing.T) {
 
 	// to see this error message, run the test with -v flag
 	t.Logf("Error: %v", err)
+}
+
+func TestAddEvent(t *testing.T) {
+	initializeGameTestSuite()
+	playerA, _ := NewPlayer("PlayerA")
+	playerB, _ := NewPlayer("PlayerB")
+
+	deckA, _ := NewDeck(playerA, [40]*CardInstance{})
+	deckB, _ := NewDeck(playerB, [40]*CardInstance{})
+
+	game, _ := NewGame([2]*Deck{deckA, deckB})
+
+	// Trying to create a sample event, but fail
+	event, err := NewEvent("TestEvent", map[string]any{"key": "value"})
+	assert.Nil(t, event)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "invalid event type")
+
+	// to see this error message, run the test with -v flag
+	t.Logf("Error: %v", err)
+
+	// Again trying to create a sample event successfully
+	event, err = NewEvent(EventDeckShuffled, map[string]any{"key": "value"})
+	assert.NotNil(t, event)
+	assert.Nil(t, err)
+
+	// Trying to add the event to the game, but failing
+	err = game.AddEvent(event)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), fmt.Sprintf("events can be added only during %s phase", GameInProgress))
+
+	// Again trying to add the event to the game successfully
+	game.Start()
+	err = game.AddEvent(event)
+	assert.Nil(t, err)
+	assert.Len(t, *game.Events, 1, "Event list should contain one event")
+	assert.Equal(t, *event, (*game.Events)[0], "The added event should match the created event")
 }
