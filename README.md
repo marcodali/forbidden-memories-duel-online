@@ -1,5 +1,5 @@
 # forbidden-memories-duel-online
-The classic forbidden memories for ps1 game but online p2p
+The classic forbidden memories videogame for ps1 but with an amazing new feature; MULTIPLAYER ONLINE P2P. So then current rules for Yu Gi Oh! do not apply for this game simulation.
 
 ## Project Structure
 ```bash

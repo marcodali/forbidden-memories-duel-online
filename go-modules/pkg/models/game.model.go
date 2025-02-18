@@ -20,6 +20,8 @@ type Game struct {
 	CurrentTurn *Turn
 	State       GameState
 	StartTime   time.Time
+	EndTime   time.Time
+	Events []Event // Inicializa una lista vacía de eventos
 }
 
 func NewGame(decks [2]*Deck) (*Game, error) {
@@ -37,6 +39,7 @@ func NewGame(decks [2]*Deck) (*Game, error) {
 		CurrentTurn: turn,
 		State:       GameReadyToStart,
 		StartTime:   time.Now(),
+			Events: make([]Event, 0), // Inicializa una lista vacía de eventos
 	}, nil
 }
 
