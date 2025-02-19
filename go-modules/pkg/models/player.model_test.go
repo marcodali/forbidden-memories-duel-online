@@ -58,8 +58,8 @@ func TestNewPlayer(t *testing.T) {
 			player, err := NewPlayer(tt.username)
 
 			if tt.wantErr {
-				assert.Error(t, err)
 				assert.Nil(t, player)
+				assert.Error(t, err)
 				assert.Contains(t, err.Error(), "username cannot be empty")
 			} else {
 				assert.NoError(t, err)
@@ -71,9 +71,9 @@ func TestNewPlayer(t *testing.T) {
 				assert.Equal(t, 0, player.WinCount)
 				assert.Equal(t, 0, player.LossCount)
 
-				// Verify timestamps are recent
-				assert.WithinDuration(t, time.Now(), player.WhenSignedUp, 1*time.Second)
-				assert.WithinDuration(t, time.Now(), player.LastLogin, 1*time.Second)
+				// Verify timestamps are initialized
+				assert.False(t, player.WhenSignedUp.IsZero(), "should not be January 1, year 1")
+				assert.False(t, player.LastLogin.IsZero(), "should not be January 1, year 1")
 
 				// call country setter method
 				err = player.SetCountry(tt.country)

@@ -37,7 +37,7 @@ func TestNewGame(t *testing.T) {
 	assert.Equal(t, 0, game.CurrentTurn.PlayerIndex)
 	assert.Equal(t, deckA, game.Decks[game.CurrentTurn.PlayerIndex])
 	assert.Equal(t, playerA, game.CurrentTurn.CurrentPlayer)
-	assert.Equal(t, 0, len(*game.Events))
+	assert.Nil(t, game.eventChan)
 	assert.Equal(t, time.Duration(0), game.DuelDuration)
 }
 
@@ -95,8 +95,10 @@ func TestFinishGame(t *testing.T) {
 
 	game.Start()
 	err = game.Finish()
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.GreaterOrEqual(t, game.DuelDuration, 1*time.Nanosecond, "duel duration is at least 1 nano second")
+	_, successReadingEventFromChannel := <-game.eventChan
+	assert.False(t, successReadingEventFromChannel, "eventChan should be closed")
 
 	// finish the game twice causes an error too
 	err = game.Finish()
@@ -137,17 +139,17 @@ func TestNextTurnSuccess(t *testing.T) {
 	assert.Equal(t, playerB, game.CurrentTurn.CurrentPlayer)
 
 	// The following are 3 different ways to achieve the same objective, choose wisely
-	// (1) iterate using range with slice/array
+	// Option (1) iterate using range with slice/array
 	/* for range []string{"draw", "place", "action"} {
 		game.CurrentTurn.NextPhase()
 	} */
 
-	// (2) you can count on me like 1, 2, 3
+	// Option (2) you can count on me like 1, 2, 3
 	/* for range 3 {
 		game.CurrentTurn.NextPhase()
 	} */
 
-	// (3) Hardcode internal phase state
+	// Option (3) Hardcode internal phase state
 	game.CurrentTurn.Phase = EndPhase
 
 	// when playerB completes their turn, the next turn should be playerA and so on
@@ -172,6 +174,7 @@ func TestNextTurnWithInvalidGameState(t *testing.T) {
 	assert.Error(t, err)
 
 	// the error here is that game.Start() was never called
+	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "cannot advance turn in the current game state")
 
 	// to see this error message, run the test with -v flag
@@ -218,10 +221,11 @@ func TestAddEvent(t *testing.T) {
 	// to see this error message, run the test with -v flag
 	t.Logf("Error: %v", err)
 
-	// Again trying to create a sample event successfully
-	event, err = NewEvent(EventDeckShuffled, map[string]any{"key": "value"})
+	// Again trying to create an event successfully
+	event, err = NewEvent(EventDeckShuffled, map[string]any{"deck": deckA})
+	assert.NoError(t, err)
 	assert.NotNil(t, event)
-	assert.Nil(t, err)
+	assert.Equal(t, event.Data["status"], SOEPristine)
 
 	// Trying to add the event to the game, but failing
 	err = game.AddEvent(event)
@@ -230,8 +234,12 @@ func TestAddEvent(t *testing.T) {
 
 	// Again trying to add the event to the game successfully
 	game.Start()
-	err = game.AddEvent(event)
-	assert.Nil(t, err)
-	assert.Len(t, *game.Events, 1, "Event list should contain one event")
-	assert.Equal(t, *event, (*game.Events)[0], "The added event should match the created event")
+	assert.NotNil(t, game.eventChan)
+
+	go game.AddEvent(event)
+
+	// wait for the event to be processed
+	time.Sleep(1 * time.Millisecond)
+
+	assert.Equal(t, event.Data["status"], SOECompleted)
 }

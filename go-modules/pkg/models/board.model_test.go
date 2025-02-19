@@ -127,7 +127,7 @@ func TestSetCardAtIndexPositionOnlyMagicTypes(t *testing.T) {
 
 	t.Run("should fail at placing the card because invalid type", func(t *testing.T) {
 		invalidCard, _ := NewCardInstance(1)
-		invalidCard.Template.Type = "Not a valid type"
+		invalidCard.Template.Type = "Not a valid type card"
 		cardStatePlayerA := &CardState{Card: invalidCard, FaceUp: false, IndexPosition: 3}
 		err := board.SetCardAtIndexPosition(cardStatePlayerA, turnOfPlayerA)
 		assert.Error(t, err)

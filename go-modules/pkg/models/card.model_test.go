@@ -58,7 +58,7 @@ func TestLoadCardsfromYAMLWithInvalidData(t *testing.T) {
   rarity: "NORMAL"
 `
 	err := GetCardRegistry().LoadCardsfromYAML([]byte(invalidData))
-	assert.NotNil(t, err)
+	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "unexpected error trying to load cards from YAML data")
 
 	// to see this error message, run the test with -v flag
@@ -89,7 +89,7 @@ func TestNewCardInstance(t *testing.T) {
 
 	// Test with invalid card ID
 	_, err = NewCardInstance(999)
-	assert.NotNil(t, err)
+	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "no card template found for the given ID")
 
 	// to see this error message, run the test with -v flag

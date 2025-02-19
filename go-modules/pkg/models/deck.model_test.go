@@ -26,7 +26,7 @@ func TestNewDeck(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, player)
 	cards := [40]*CardInstance{}
-	for i := 0; i < 40; i++ {
+	for i := range 40 {
 		cards[i] = &CardInstance{}
 	}
 
@@ -43,6 +43,7 @@ func TestNewDeck(t *testing.T) {
 
 	// invalid deck type
 	err = deck.SetDeckType("InvalidDeckType")
+	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "invalid deck type")
 
 	// to see this error message, run the test with -v flag
@@ -53,6 +54,7 @@ func TestNewDeckWithoutPlayer(t *testing.T) {
 	initializeDeckTestSuite()
 	cards := [40]*CardInstance{}
 	_, err := NewDeck(nil, cards)
+	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "player cannot be empty")
 }
 
@@ -62,7 +64,7 @@ func TestMoveCardsFromRemainingToHand(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, player)
 	cards := [40]*CardInstance{}
-	for i := 0; i < 40; i++ {
+	for i := range 40 {
 		cards[i] = &CardInstance{}
 	}
 
@@ -77,15 +79,18 @@ func TestMoveCardsFromRemainingToHand(t *testing.T) {
 	assert.Equal(t, 35, len(deck.RemainingCards))
 
 	err = deck.MoveCardsFromRemainingToHand(-1)
+	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "cannot move zero or less cards")
 
 	err = deck.MoveCardsFromRemainingToHand(6)
+	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "cannot move more than 5 cards at a time")
 
-	for i := 0; i < 35; i++ {
+	for range 35 {
 		deck.MoveCardsFromRemainingToHand(1)
 	}
 
 	err = deck.MoveCardsFromRemainingToHand(1)
+	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "not enough remaining cards to move")
 }

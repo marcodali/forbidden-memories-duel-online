@@ -5,6 +5,15 @@ import (
 	"time"
 )
 
+type StatusOfEvent string
+
+const (
+	SOEPristine   StatusOfEvent = "PRISTINE"
+	SOEEnqueued   StatusOfEvent = "ENQUEUED"
+	SOEProcessing StatusOfEvent = "IN_PROCESS"
+	SOECompleted  StatusOfEvent = "COMPLETED"
+)
+
 type EventType string
 
 const (
@@ -33,30 +42,30 @@ const (
 	EventProhibitOpponentToAtack         EventType = "PROHIBIT_OPPONENT_TO_ATACK"
 )
 
-var validEventTypes = map[EventType]bool{
-	EventDeckShuffled:                    true,
-	EventOneCardDroppedOrDestroyed:       true,
-	EventBulkCardDestruction:             true,
-	EventCardFusionFailed:                true,
-	EventCardFused:                       true,
-	EventMonsterBattle:                   true,
-	EventSacrificeCardsForRitual:         true,
-	EventOneCardStateAndPositionChanged:  true,
-	EventBulkCardStateAndPositionChanged: true,
-	EventGetOutOfCards:                   true,
-	EventOneCardPointsUpdate:             true,
-	EventBulkCardPointsUpdate:            true,
-	EventDirectDamageToLifePoints:        true,
-	EventPlayerLifePointsUpdate:          true,
-	EventTrapActivated:                   true,
-	EventChangeFieldLand:                 true,
-	EventEquipCardAttached:               true,
-	EventGuardianStarChange:              true,
-	EventMagicCardActivated:              true,
-	EventPlayerWins:                      true,
-	EventPlayerLoses:                     true,
-	EventTurnPhaseChange:                 true,
-	EventProhibitOpponentToAtack:         true,
+var validEventTypes = map[EventType]func(event *Event) error{
+	EventDeckShuffled: EventDeckShuffledFn,
+	// EventOneCardDroppedOrDestroyed:       true,
+	// EventBulkCardDestruction:             true,
+	// EventCardFusionFailed:                true,
+	// EventCardFused:                       true,
+	// EventMonsterBattle:                   true,
+	// EventSacrificeCardsForRitual:         true,
+	// EventOneCardStateAndPositionChanged:  true,
+	// EventBulkCardStateAndPositionChanged: true,
+	// EventGetOutOfCards:                   true,
+	// EventOneCardPointsUpdate:             true,
+	// EventBulkCardPointsUpdate:            true,
+	// EventDirectDamageToLifePoints:        true,
+	// EventPlayerLifePointsUpdate:          true,
+	// EventTrapActivated:                   true,
+	// EventChangeFieldLand:                 true,
+	// EventEquipCardAttached:               true,
+	// EventGuardianStarChange:              true,
+	// EventMagicCardActivated:              true,
+	// EventPlayerWins:                      true,
+	// EventPlayerLoses:                     true,
+	// EventTurnPhaseChange:                 true,
+	EventProhibitOpponentToAtack: EventProhibitOpponentToAtackFn,
 }
 
 type Event struct {
@@ -66,7 +75,8 @@ type Event struct {
 }
 
 func NewEvent(eventType EventType, data map[string]any) (*Event, error) {
-	if validEventTypes[eventType] {
+	data["status"] = SOEPristine
+	if _, eventTypeExists := validEventTypes[eventType]; eventTypeExists {
 		return &Event{
 			Type:      eventType,
 			Timestamp: time.Now(),

@@ -21,7 +21,7 @@ type Game struct {
 	State        GameState
 	StartTime    time.Time
 	DuelDuration time.Duration
-	Events       *[]Event
+	eventChan    chan *Event
 }
 
 func NewGame(decks [2]*Deck) (*Game, error) {
@@ -33,23 +33,15 @@ func NewGame(decks [2]*Deck) (*Game, error) {
 	decks[1].Player.LifePoints = 8000
 
 	turn, _ := NewTurn(decks[0].Player, 0)
-	return &Game{
+	game := &Game{
 		Decks:       decks,
 		Board:       NewBoard(),
 		CurrentTurn: turn,
 		State:       GameReadyToStart,
 		StartTime:   time.Now(),
-		Events:      &[]Event{},
-	}, nil
-}
-
-func (g *Game) AddEvent(event *Event) error {
-	// events can only be added after GameReadyToStart phase and prior to GameFinished phase
-	if g.State != GameInProgress {
-		return fmt.Errorf("events can be added only during %s phase", GameInProgress)
 	}
-	*g.Events = append(*g.Events, *event)
-	return nil
+
+	return game, nil
 }
 
 func (g *Game) Start() error {
@@ -59,6 +51,11 @@ func (g *Game) Start() error {
 
 	g.State = GameInProgress
 	g.StartTime = time.Now()
+	g.eventChan = make(chan *Event)
+
+	// Launch the event processing goroutine
+	go g.processEvents()
+
 	return nil
 }
 
@@ -69,7 +66,32 @@ func (g *Game) Finish() error {
 
 	g.State = GameFinished
 	g.DuelDuration = time.Since(g.StartTime)
+	close(g.eventChan)
 	return nil
+}
+
+// calling normal AddEvent(e) could return errors and will block the code execution until the event is consumed
+// in the other hand, calling go AddEvent(e) as a gorutine will execute the code in an async(non-blocking) way
+// on the background which sounds great but errors cannot be catched anymore.
+func (g *Game) AddEvent(event *Event) error {
+	// events can only be added after GameReadyToStart phase and prior to GameFinished phase
+	if g.State != GameInProgress {
+		return fmt.Errorf("events can be added only during %s phase", GameInProgress)
+	}
+	event.Data["status"] = SOEEnqueued
+	g.eventChan <- event
+	return nil
+}
+
+// this is a forever loop running in the background if executed as gorutine
+func (g *Game) processEvents() {
+	for event := range g.eventChan {
+		if processingEventFunction, functionExists := validEventTypes[event.Type]; functionExists {
+			event.Data["status"] = SOEProcessing
+			processingEventFunction(event)
+			event.Data["status"] = SOECompleted
+		}
+	}
 }
 
 func (g *Game) NextTurn() (*Deck, error) {

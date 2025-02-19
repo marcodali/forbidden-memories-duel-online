@@ -61,7 +61,7 @@ func TestNextPhaseWithInvalidState(t *testing.T) {
 	// to see this error message, run the test with -v flag
 	t.Logf("Error: %v", err)
 
-	turn.Phase = "Invalid Phase"
+	turn.Phase = "Not a valid phase"
 	err = turn.NextPhase()
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "cannot advance to next phase")
