@@ -15,6 +15,7 @@ const (
 )
 
 type Game struct {
+	ID           string
 	Decks        [2]*Deck
 	Board        *Board
 	CurrentTurn  *Turn
@@ -34,6 +35,7 @@ func NewGame(decks [2]*Deck) (*Game, error) {
 
 	turn, _ := NewTurn(decks[0].Player, 0)
 	game := &Game{
+		ID:          generateUUID(),
 		Decks:       decks,
 		Board:       NewBoard(),
 		CurrentTurn: turn,

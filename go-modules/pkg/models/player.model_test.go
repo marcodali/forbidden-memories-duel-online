@@ -132,7 +132,7 @@ func TestUpdateLastLogin(t *testing.T) {
 	player, _ := NewPlayer("TestPlayer")
 
 	// Simulate time passing
-	time.Sleep(time.Millisecond * 100)
+	time.Sleep(1 * time.Nanosecond)
 
 	oldLogin := player.LastLogin
 	player.UpdateLastLogin()

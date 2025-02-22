@@ -15,8 +15,8 @@ func EventProhibitOpponentToAtackFn(event *Event) error {
 	}
 
 	// gathering requirements
-	turns, turnsExists := event.Data["turns"].(int)
-	if !turnsExists {
+	turns, turnsExist := event.Data["turns"].(int)
+	if !turnsExist {
 		return errors.New("turns missing")
 	}
 	opponent, playerExists := event.Data["opponent"].(*Player)
