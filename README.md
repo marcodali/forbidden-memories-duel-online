@@ -5,19 +5,19 @@ The classic forbidden memories videogame for ps1 but with an amazing new feature
 ```bash
 /go-modules/
 ├── cmd/                    # Entry points for applications
-├── internal/               # Private application code
+├── internal/               # Private Application code
 │   ├── engine/             # Game Engine implementation
 │   │   ├── domain/         # Core business logic
-│   │   ├── integration/    # External service integration
-│   │   └── transport/      # Communication layer
+│   │   ├── integration/    # Integration tests with other modules
+│   │   └── transport/      # gRPC Communication layer
 │   └── persistence/        # Data Persistence implementation
 │       ├── domain/         # Core business logic
-│       ├── integration/    # Database integration tests
+│       ├── integration/    # Integration tests with other modules
 │       ├── repository/     # Data access layer
-│       └── transport/      # Data service communication
-└── pkg/                    # Public shared code
-    ├── models/             # Shared data models
-    ├── proto/              # Protocol buffer definitions
+│       └── transport/      # gRPC Communication layer
+└── pkg/                    # Public Application code
+    ├── models/             # Data Models
+    ├── proto/              # Protobuf definitions
     └── utils/              # Shared utilities
 ```
 
@@ -35,7 +35,7 @@ The classic forbidden memories videogame for ps1 but with an amazing new feature
 - **Matchmaking System (Go):** Matches players for duels.
   > Go's excellent concurrency model with goroutines and channels is perfect for managing multiple concurrent matchmaking requests efficiently.
 
-- **Game Engine (Go):** Core game logic, managing flow and rules.
+- **Game Engine (Go):** Core game logic and managing flow.
   > Go's simplicity, strong concurrency support, and fast execution make it ideal for core game logic.
 
 - **Card and Deck Validation System (Rust):** Manages cards and verifies deck validity.
@@ -46,20 +46,20 @@ The classic forbidden memories videogame for ps1 but with an amazing new feature
 
 ## Game Entities
 
-- **Card:** Represents a card in the game.
-- **Player:** Represents a player in the game.
+- **Card:** Represents a monster or magic in the game.
+- **Player:** The human playing the game.
 - **Board:** The playing area where cards are placed.
-- **Engine:** Manages the game's logic and flow.
 - **Deck:** A set of cards a player can use.
-- **Game:** Represents an instance of the game.
+- **Game:** Represents the battle between 2 players.
 - **Turn:** Manages the turn cycle in the game.
 - **Event:** Handles events occurring during the game.
+- **Engine:** Manages the game's logic and flow.
 
-## Run unit tests
+## Run Unit Tests
+By default, tests within the same package are executed sequentially. Tests from different packages are executed in parallel. To force parallelism between test functions within the same package, use `t.Parallel()`.
 
 ```bash
 cd go-modules/
-go test -cover -coverprofile=./coverage.out ./pkg/models/ -v #verbose output
-go test -cover -coverprofile=./coverage.out ./pkg/models/ #silence mode
+go test -cover -coverprofile=./coverage.out ./pkg/models/ -v # Verbose output
+go test -cover -coverprofile=./coverage.out ./pkg/models/ # Concise output
 go tool cover -html=./coverage.out
-```
