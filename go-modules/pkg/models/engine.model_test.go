@@ -1,140 +1,102 @@
 package models
 
 import (
-	"runtime"
 	"fmt"
-	"path/filepath"
-	"sync"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-var singletonForEngineModel sync.Once
-
-func initializeEngineTestSuite() {
-	singletonForEngineModel.Do(func() {
-		_, filename, _, _ := runtime.Caller(0)
-		fmt.Println("This setup code executes only one time for the file", filepath.Base(filename))
-		CleanRegistry()
-	})
-}
-
 func TestNewEngine(t *testing.T) {
-	initializeEngineTestSuite()
 	engine := NewEngine()
-	assert.NotNil(t, engine)
+
 	assert.NotNil(t, engine.activeGames)
-	assert.False(t, engine.startTime.IsZero())
+	assert.Equal(t, 0, engine.totalGamesProcessed)
+	assert.Greater(t, time.Now(), engine.startTime)
 }
 
-func TestEngineStartAndShutdown(t *testing.T) {
-	initializeEngineTestSuite()
+func TestAddGame(t *testing.T) {
 	engine := NewEngine()
 
-	err := engine.Start()
-	assert.NoError(t, err)
+	playerA, _ := NewPlayer("PlayerA")
+	playerB, _ := NewPlayer("PlayerB")
+	deck1, _ := NewDeck(playerA, [40]*CardInstance{})
+	deck2, _ := NewDeck(playerB, [40]*CardInstance{})
+	game, _ := NewGame([2]*Deck{deck1, deck2})
 
-	err = engine.Shutdown()
-	assert.NoError(t, err)
-	assert.Nil(t, engine.activeGames)
-}
+	// fail adding a Game
+	err := engine.AddGame(game)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), fmt.Sprintf("only games with State = %s can be added to the engine, got %s", GameInProgress, GameReadyToStart))
 
-func TestCreateAndEndGame(t *testing.T) {
-	initializeEngineTestSuite()
-	engine := NewEngine()
-	
-	// Create players and decks
-	player1 := createTestPlayer(t, "Player1")
-	player2 := createTestPlayer(t, "Player2")
-	deck1 := createTestDeck(t, player1)
-	deck2 := createTestDeck(t, player2)
-
-	// Create game
-	game, err := engine.CreateGame(deck1, deck2)
+	// success adding a Game
+	game.Start()
+	err = engine.AddGame(game)
 	assert.NoError(t, err)
-	assert.NotNil(t, game)
-	assert.Equal(t, 1, engine.GetActiveGamesCount())
-
-	// End game
-	err = engine.EndGame(game.ID)
-	assert.NoError(t, err)
-	assert.Equal(t, 0, engine.GetActiveGamesCount())
-	assert.Equal(t, int64(1), engine.GetTotalGamesProcessed())
+	assert.Equal(t, 1, engine.GetActiveGamesCount(), "should be 1 active game")
 }
 
 func TestGetGame(t *testing.T) {
-	initializeEngineTestSuite()
-	engine := NewEngine()
-	
-	// Create test game
-	player1 := createTestPlayer(t, "Player1")
-	player2 := createTestPlayer(t, "Player2")
-	deck1 := createTestDeck(t, player1)
-	deck2 := createTestDeck(t, player2)
-	game, _ := engine.CreateGame(deck1, deck2)
-
-	// Test getting existing game
-	retrieved, err := engine.GetGame(game.ID)
-	assert.NoError(t, err)
-	assert.NotNil(t, retrieved)
-	assert.Equal(t, game, retrieved)
-
-	// Test getting non-existent game
-	retrieved, err = engine.GetGame("non-existent")
-	assert.NoError(t, err)
-	assert.Nil(t, retrieved)
-}
-
-func TestEngineMetrics(t *testing.T) {
-	initializeEngineTestSuite()
 	engine := NewEngine()
 
-	// Create and finish some games
-	for i := 0; i < 3; i++ {
-		player1 := createTestPlayer(t, "Player1")
-		player2 := createTestPlayer(t, "Player2")
-		deck1 := createTestDeck(t, player1)
-		deck2 := createTestDeck(t, player2)
-		game, _ := engine.CreateGame(deck1, deck2)
-		
-		// Start the game to allow finishing
-		err := game.Start()
-		assert.NoError(t, err)
-		
-		time.Sleep(100 * time.Millisecond) // Simulate game duration
-		err = engine.EndGame(game.ID)
-		assert.NoError(t, err)
-	}
+	playerA, _ := NewPlayer("PlayerA")
+	playerB, _ := NewPlayer("PlayerB")
+	deck1, _ := NewDeck(playerA, [40]*CardInstance{})
+	deck2, _ := NewDeck(playerB, [40]*CardInstance{})
+	game, _ := NewGame([2]*Deck{deck1, deck2})
 
-	// Test metrics
-	assert.Equal(t, 0, engine.GetActiveGamesCount())
-	assert.Equal(t, int64(3), engine.GetTotalGamesProcessed())
-	assert.True(t, engine.GetEngineUptime() > 0)
-	assert.True(t, engine.GetAverageDuelDuration() > 0)
+	// Add Game
+	game.Start()
+	engine.AddGame(game)
 
-	stateCount := engine.GetGamesByState()
-	assert.NotNil(t, stateCount)
+	// Get Game
+	retrievedGame, err := engine.GetActiveGame(game.ID)
+	assert.NoError(t, err)
+	assert.Equal(t, game, retrievedGame)
+	assert.EqualValues(t, game, retrievedGame)
+
+	// Get non-existent Game
+	_, err = engine.GetActiveGame("Not a valid game id")
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "cannot get active game because not found")
 }
 
-// Helper function to create a test player
-func createTestPlayer(t *testing.T, username string) *Player {
-	player, err := NewPlayer(username)
+func TestRemoveGame(t *testing.T) {
+	engine := NewEngine()
+
+	playerA, _ := NewPlayer("PlayerA")
+	playerB, _ := NewPlayer("PlayerB")
+	deck1, _ := NewDeck(playerA, [40]*CardInstance{})
+	deck2, _ := NewDeck(playerB, [40]*CardInstance{})
+	game, _ := NewGame([2]*Deck{deck1, deck2})
+
+	// Add Game
+	game.Start()
+	engine.AddGame(game)
+
+	// Remove non-existent Game
+	err := engine.RemoveGame("Not a valid game id")
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "cannot remove game because not found")
+
+	// Remove a valid Game with invalid state
+	err = engine.RemoveGame(game.ID)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), fmt.Sprintf("only games with State = %s can be removed from the engine, got %s", GameFinished, GameInProgress))
+
+	// Remove a valid Game with valid state
+	game.Finish()
+	err = engine.RemoveGame(game.ID)
 	assert.NoError(t, err)
-	return player
+	assert.Equal(t, 1, engine.GetTotalGamesProcessed(), "should be 1 game processed")
 }
 
-// Helper function to create a test deck
-func createTestDeck(t *testing.T, player *Player) *Deck {
-	InitializeCardRegistryWithFakeYAMLData()
-	cards := [40]*CardInstance{}
-	for i := 0; i < 40; i++ {
-		card, err := NewCardInstance(1001)
-		assert.NoError(t, err)
-		cards[i] = card
-	}
-	deck, err := NewDeck(player, cards)
-	assert.NoError(t, err)
-	return deck
+func TestGetEngineUptime(t *testing.T) {
+	engine := NewEngine()
+
+	// Wait for a short duration
+	time.Sleep(1 * time.Microsecond)
+
+	assert.GreaterOrEqual(t, engine.GetEngineUptime(), time.Duration(1*time.Microsecond), "at least 1 microsecond should have elapsed since the engine started")
 }

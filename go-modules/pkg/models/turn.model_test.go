@@ -1,28 +1,12 @@
 package models
 
 import (
-	"fmt"
-	"path/filepath"
-	"runtime"
-	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-var singletonForTurnModel sync.Once
-
-func initializeTurnTestSuite() {
-	singletonForTurnModel.Do(func() {
-		_, filename, _, _ := runtime.Caller(0)
-		fmt.Println("This setup code executes only one time for the file", filepath.Base(filename))
-		CleanRegistry()
-	})
-}
-
 func TestNewTurn(t *testing.T) {
-	initializeTurnTestSuite()
-
 	player, _ := NewPlayer("TestPlayer")
 	turn, err := NewTurn(player, 0)
 
@@ -48,8 +32,6 @@ func TestNewTurn(t *testing.T) {
 }
 
 func TestNextPhaseWithInvalidState(t *testing.T) {
-	initializeTurnTestSuite()
-
 	player, _ := NewPlayer("TestPlayer")
 	turn, _ := NewTurn(player, 0)
 

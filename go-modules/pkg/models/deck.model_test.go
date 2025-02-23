@@ -1,27 +1,12 @@
 package models
 
 import (
-	"fmt"
-	"path/filepath"
-	"runtime"
-	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-var singletonForDeckModel sync.Once
-
-func initializeDeckTestSuite() {
-	singletonForDeckModel.Do(func() {
-		_, filename, _, _ := runtime.Caller(0)
-		fmt.Println("This setup code executes only one time for the file", filepath.Base(filename))
-		CleanRegistry()
-	})
-}
-
 func TestNewDeck(t *testing.T) {
-	initializeDeckTestSuite()
 	player, err := NewPlayer("TestPlayer")
 	assert.NoError(t, err)
 	assert.NotNil(t, player)
@@ -51,7 +36,6 @@ func TestNewDeck(t *testing.T) {
 }
 
 func TestNewDeckWithoutPlayer(t *testing.T) {
-	initializeDeckTestSuite()
 	cards := [40]*CardInstance{}
 	_, err := NewDeck(nil, cards)
 	assert.Error(t, err)
@@ -59,7 +43,6 @@ func TestNewDeckWithoutPlayer(t *testing.T) {
 }
 
 func TestMoveCardsFromRemainingToHand(t *testing.T) {
-	initializeDeckTestSuite()
 	player, err := NewPlayer("TestPlayer")
 	assert.NoError(t, err)
 	assert.NotNil(t, player)

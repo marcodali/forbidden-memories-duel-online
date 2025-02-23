@@ -1,28 +1,13 @@
 package models
 
 import (
-	"fmt"
-	"path/filepath"
-	"runtime"
-	"sync"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-var singletonForPlayerModel sync.Once
-
-func initializePlayerTestSuite() {
-	singletonForPlayerModel.Do(func() {
-		_, filename, _, _ := runtime.Caller(0)
-		fmt.Println("This setup code executes only one time for the file", filepath.Base(filename))
-		CleanRegistry()
-	})
-}
-
 func TestNewPlayer(t *testing.T) {
-	initializePlayerTestSuite()
 	tests := []struct {
 		name         string
 		username     string
@@ -90,7 +75,6 @@ func TestNewPlayer(t *testing.T) {
 }
 
 func TestInvalidCountry(t *testing.T) {
-	initializePlayerTestSuite()
 	test := struct {
 		username string
 		country  string
@@ -109,7 +93,6 @@ func TestInvalidCountry(t *testing.T) {
 }
 
 func TestInvalidAuthProvider(t *testing.T) {
-	initializePlayerTestSuite()
 	test := struct {
 		username     string
 		authProvider AuthProvider
@@ -128,7 +111,6 @@ func TestInvalidAuthProvider(t *testing.T) {
 }
 
 func TestUpdateLastLogin(t *testing.T) {
-	initializePlayerTestSuite()
 	player, _ := NewPlayer("TestPlayer")
 
 	// Simulate time passing
@@ -141,7 +123,6 @@ func TestUpdateLastLogin(t *testing.T) {
 }
 
 func TestGetWinRate(t *testing.T) {
-	initializePlayerTestSuite()
 	player, _ := NewPlayer("TestPlayer")
 
 	tests := []struct {

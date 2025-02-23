@@ -2,11 +2,12 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 	"time"
 )
 
-// Engine represents the game engine that manages active duels
+// Only games with State = GameInProgress can live inside activeGames
 type Engine struct {
 	activeGames         map[string]*Game
 	mutex               sync.RWMutex
@@ -21,25 +22,26 @@ func NewEngine() *Engine {
 	}
 }
 
-// This is a write lock operation
-func (e *Engine) AddGame(game *Game) {
-	e.mutex.Lock()
-	defer e.mutex.Unlock()
-	e.activeGames[game.ID] = game
+func (e *Engine) GetEngineUptime() time.Duration {
+	e.mutex.RLock()
+	defer e.mutex.RUnlock()
+	return time.Since(e.startTime)
 }
 
-// This is a write lock operation
-func (e *Engine) RemoveGame(gameID string) error {
+func (e *Engine) GetTotalGamesProcessed() int {
+	e.mutex.RLock()
+	defer e.mutex.RUnlock()
+	return e.totalGamesProcessed
+}
+
+// game should have started already to be added
+func (e *Engine) AddGame(game *Game) error {
 	e.mutex.Lock()
 	defer e.mutex.Unlock()
-
-	game, gameExists := e.activeGames[gameID]
-	if !gameExists {
-		return errors.New("cannot remove game because not found")
+	if game.State != GameInProgress {
+		return fmt.Errorf("only games with State = %s can be added to the engine, got %s", GameInProgress, game.State)
 	}
-
-	delete(e.activeGames, game.ID)
-	e.totalGamesProcessed++
+	e.activeGames[game.ID] = game
 	return nil
 }
 
@@ -61,18 +63,18 @@ func (e *Engine) GetActiveGamesCount() int {
 	return len(e.activeGames)
 }
 
-func (e *Engine) GetAverageDuelDuration() time.Duration {
-	return time.Duration(0)
-}
-
-func (e *Engine) GetEngineUptime() time.Duration {
-	e.mutex.RLock()
-	defer e.mutex.RUnlock()
-	return time.Since(e.startTime)
-}
-
-func (e *Engine) GetTotalGamesProcessed() int {
-	e.mutex.RLock()
-	defer e.mutex.RUnlock()
-	return e.totalGamesProcessed
+// game should be finished already to be removed
+func (e *Engine) RemoveGame(gameID string) error {
+	e.mutex.Lock()
+	defer e.mutex.Unlock()
+	game, exists := e.activeGames[gameID]
+	if !exists {
+		return errors.New("cannot remove game because not found")
+	}
+	if game.State != GameFinished {
+		return fmt.Errorf("only games with State = %s can be removed from the engine, got %s", GameFinished, game.State)
+	}
+	delete(e.activeGames, gameID)
+	e.totalGamesProcessed++
+	return nil
 }

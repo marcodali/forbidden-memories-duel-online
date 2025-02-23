@@ -2,27 +2,13 @@ package models
 
 import (
 	"fmt"
-	"path/filepath"
-	"runtime"
-	"sync"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-var singletonForGameModel sync.Once
-
-func initializeGameTestSuite() {
-	singletonForGameModel.Do(func() {
-		_, filename, _, _ := runtime.Caller(0)
-		fmt.Println("This setup code executes only one time for the file", filepath.Base(filename))
-		CleanRegistry()
-	})
-}
-
 func TestNewGame(t *testing.T) {
-	initializeGameTestSuite()
 	playerA, _ := NewPlayer("PlayerA")
 	playerB, _ := NewPlayer("PlayerB")
 
@@ -42,7 +28,6 @@ func TestNewGame(t *testing.T) {
 }
 
 func TestNewGameWithInvalidDecks(t *testing.T) {
-	initializeGameTestSuite()
 	playerA, _ := NewPlayer("PlayerA")
 
 	deckA, _ := NewDeck(playerA, [40]*CardInstance{})
@@ -53,7 +38,6 @@ func TestNewGameWithInvalidDecks(t *testing.T) {
 }
 
 func TestStartGame(t *testing.T) {
-	initializeGameTestSuite()
 	playerA, _ := NewPlayer("PlayerA")
 	playerB, _ := NewPlayer("PlayerB")
 
@@ -77,7 +61,6 @@ func TestStartGame(t *testing.T) {
 }
 
 func TestFinishGame(t *testing.T) {
-	initializeGameTestSuite()
 	playerA, _ := NewPlayer("PlayerA")
 	playerB, _ := NewPlayer("PlayerB")
 
@@ -110,7 +93,6 @@ func TestFinishGame(t *testing.T) {
 }
 
 func TestNextTurnSuccess(t *testing.T) {
-	initializeGameTestSuite()
 	playerA, _ := NewPlayer("PlayerA")
 	playerB, _ := NewPlayer("PlayerB")
 
@@ -161,7 +143,6 @@ func TestNextTurnSuccess(t *testing.T) {
 }
 
 func TestNextTurnWithInvalidGameState(t *testing.T) {
-	initializeGameTestSuite()
 	playerA, _ := NewPlayer("PlayerA")
 	playerB, _ := NewPlayer("PlayerB")
 
@@ -182,7 +163,6 @@ func TestNextTurnWithInvalidGameState(t *testing.T) {
 }
 
 func TestNextTurnWithInvalidPhaseState(t *testing.T) {
-	initializeGameTestSuite()
 	playerA, _ := NewPlayer("PlayerA")
 	playerB, _ := NewPlayer("PlayerB")
 
@@ -203,7 +183,6 @@ func TestNextTurnWithInvalidPhaseState(t *testing.T) {
 }
 
 func TestAddEvent(t *testing.T) {
-	initializeGameTestSuite()
 	playerA, _ := NewPlayer("PlayerA")
 	playerB, _ := NewPlayer("PlayerB")
 
