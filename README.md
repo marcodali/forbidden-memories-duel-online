@@ -26,20 +26,17 @@ The classic forbidden memories videogame for ps1 but with an amazing new feature
 - **Achievements and Rewards System (Python):** Manages player achievements and rewards.
   > Python's extensive data analysis libraries make it ideal for tracking and analyzing player progress and behavior.
 
-- **Rules System (Python):** Defines and applies game rules.
-  > Python's flexibility and readability make it excellent for implementing and maintaining complex game rules.
-
 - **WebSocket Handler (Rust):** Handles real-time communication between players.
   > Rust's performance and memory safety make it perfect for handling high-throughput, low-latency WebSocket connections.
+
+- **Card and Deck Validation System (Rust):** Manages cards and verifies deck validity.
+  > Rust's strict type system and performance characteristics ensure reliable and fast card/deck validation.
 
 - **Matchmaking System (Go):** Matches players for duels.
   > Go's excellent concurrency model with goroutines and channels is perfect for managing multiple concurrent matchmaking requests efficiently.
 
 - **Game Engine (Go):** Core game logic and managing flow.
   > Go's simplicity, strong concurrency support, and fast execution make it ideal for core game logic.
-
-- **Card and Deck Validation System (Rust):** Manages cards and verifies deck validity.
-  > Rust's strict type system and performance characteristics ensure reliable and fast card/deck validation.
 
 - **Data Persistence (Go):** Manages storage and retrieval of game data.
   > Go's strong standard library and excellent database drivers provide flexible and efficient data persistence.
@@ -63,3 +60,6 @@ cd go-modules/
 go test -cover -coverprofile=./coverage.out ./pkg/models/ -v # Verbose output
 go test -cover -coverprofile=./coverage.out ./pkg/models/ # Concise output
 go tool cover -html=./coverage.out
+
+## UI
+We use Vercel, Redux, Next, Tailwind and GreenSock
