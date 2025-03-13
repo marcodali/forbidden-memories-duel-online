@@ -62,4 +62,4 @@ go test -cover -coverprofile=./coverage.out ./pkg/models/ # Concise output
 go tool cover -html=./coverage.out
 
 ## UI
-We use Vercel, Redux, Next, Tailwind and GreenSock
+We use Vercel, Redux, Next, Tailwind and gsap
